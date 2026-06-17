@@ -1,0 +1,37 @@
+{
+  "version": "0.1.0-day3",
+  "comment": "Conectores lógico-estruturais do discurso técnico em PT-BR e EN. Formas multi-token (`dado que`, `if and only if`, `se e somente se`) ordenadas por comprimento decrescente no scanner para preferir casamento mais longo. Conjunções leves (`e`, `ou`, `and`, `or`) NÃO entram no lexicon — ruído alto em prosa técnica.",
+  "pt-br": [
+    {"forma": "se e somente se", "funcao": "condicional"},
+    {"forma": "dado que", "funcao": "condicional"},
+    {"forma": "tal que", "funcao": "condicional"},
+    {"forma": "desde que", "funcao": "condicional"},
+    {"forma": "por outro lado", "funcao": "disjuntiva"},
+    {"forma": "uma vez que", "funcao": "causal"},
+    {"forma": "ao passo que", "funcao": "disjuntiva"},
+    {"forma": "portanto", "funcao": "conclusiva"},
+    {"forma": "logo", "funcao": "conclusiva"},
+    {"forma": "então", "funcao": "conclusiva"},
+    {"forma": "assim", "funcao": "conclusiva"},
+    {"forma": "consequentemente", "funcao": "conclusiva"},
+    {"forma": "contudo", "funcao": "disjuntiva"},
+    {"forma": "todavia", "funcao": "disjuntiva"},
+    {"forma": "entretanto", "funcao": "disjuntiva"},
+    {"forma": "porém", "funcao": "disjuntiva"}
+  ],
+  "en": [
+    {"forma": "if and only if", "funcao": "condicional"},
+    {"forma": "given that", "funcao": "condicional"},
+    {"forma": "such that", "funcao": "condicional"},
+    {"forma": "provided that", "funcao": "condicional"},
+    {"forma": "on the other hand", "funcao": "disjuntiva"},
+    {"forma": "therefore", "funcao": "conclusiva"},
+    {"forma": "hence", "funcao": "conclusiva"},
+    {"forma": "thus", "funcao": "conclusiva"},
+    {"forma": "consequently", "funcao": "conclusiva"},
+    {"forma": "moreover", "funcao": "conjuntiva"},
+    {"forma": "furthermore", "funcao": "conjuntiva"},
+    {"forma": "however", "funcao": "disjuntiva"},
+    {"forma": "whereas", "funcao": "disjuntiva"}
+  ]
+}

@@ -1,0 +1,309 @@
+# Ontologia das Entidades em Engenharia (OEE) — versão 1.1
+#
+# Declaração formal dos tipos ontológicos que compõem o discurso técnico
+# de engenharia. Esta ontologia é a contribuição teórica central do
+# framework Enedina Tokenizer e fundamenta a derivação dos instanciadores
+# da Camada 3 da arquitetura.
+#
+# Fonte autoritativa: SPEC_ENEDINA_TOKENIZER_v2.md §2.
+# Mudanças a partir da v1.0 exigem RFC explícita.
+#
+# CHANGELOG v1.0 → v1.1 (2026-05-31):
+# - GrandezaFisica: `valor` pode ser None (unidade-isolada legítima como
+#   "kgf/cm²"), espelhando Pint.parse_expression sobre só-unidade.
+# - Novo 8º tipo Numero: escalar real sem dimensão física associada.
+#   Endereça lacuna SOTA Number Cookbook (Yang ICLR 2025, Singh-Strouse
+#   2024) e closing-empírico H4 (números soltos em vestibular/MC).
+# - Aplicação formal de P5 (extensibilidade): adição sem modificação
+#   dos 7 tipos existentes; código v1.0 continua válido.
+# - Sequência ordenada: Numero NOVO entra entre ConstanteUniversal e
+#   IdentificadorTecnico — específico (tem valor) mas sem dimensão.
+
+oee_version: "1.2"
+nome: "Ontologia das Entidades em Engenharia"
+descricao: |
+  Declaração dos tipos ontológicos do discurso técnico de engenharia.
+  Cada tipo possui propriedades intrínsecas (presentes em todas suas
+  instâncias) e invariantes (preservados por qualquer representação
+  válida). GrandezaFisica é o tipo central; os demais constituem
+  contexto desambiguador que ancora a interpretação das grandezas.
+referencias:
+  - "SPEC_ENEDINA_TOKENIZER_v2.md §2 (Ontologia)"
+  - "SPEC_ENEDINA_TOKENIZER_v2.md §3 (Arquitetura)"
+
+# ---------------------------------------------------------------------------
+# Princípios da OEE (replicados em forma legível por máquina para auditoria)
+# ---------------------------------------------------------------------------
+principios:
+  - id: P1
+    nome: "Tipos são intrínsecos"
+    declaracao: "Um tipo é definido por propriedades intrínsecas, não por critérios pragmáticos ou frequência empírica."
+  - id: P2
+    nome: "Tipos têm invariantes"
+    declaracao: "Cada tipo declara invariantes preserváveis por qualquer representação válida."
+  - id: P3
+    nome: "Composição é mediada"
+    declaracao: "Tipos podem conter outros tipos, mas via estrutura declarada — não por concatenação livre."
+  - id: P4
+    nome: "Erro de tipo é categórico"
+    declaracao: "Aplicar instanciação inadequada a um tipo é erro categórico, não perda de qualidade."
+  - id: P5
+    nome: "Ontologia é extensível"
+    declaracao: "Domínios específicos podem adicionar tipos sem modificar os existentes (fechamento incremental)."
+  - id: P6
+    nome: "Convenção tipográfica de engenharia"
+    declaracao: "Variáveis simbólicas em engenharia são clusters alfabéticos curtos (≤4 chars), com subscript (`_`), ou letras gregas. Clusters mais longos são palavras naturais ou identificadores específicos. Este axioma converte ambiguidade contextual em critério estrutural sem dicionário externo de prosa."
+  - id: P7
+    nome: "Âncora estrutural de expressão simbólica"
+    declaracao: "ExpressaoSimbolica em prosa só é reconhecida quando adjacente (com 0-2 espaços) a âncora estrutural: OperadorFormal relacional/cálculo (`=`, `≈`, `≤`, `≥`, `<`, `>`, `∝`, `≡`, `∑`, `∫`, `∂`, `∇`), ou dentro de delimitadores LaTeX `$...$`. Sem âncora, cluster fica em prosa — princípio elimina ambiguidade fundamental entre variável-em-expressão e letra-em-palavra-natural."
+
+# ---------------------------------------------------------------------------
+# Catálogo de tipos
+# ---------------------------------------------------------------------------
+tipos:
+
+  GrandezaFisica:
+    natureza: "Entidade do mundo físico mensurável (com ou sem valor explícito)"
+    propriedades_intrinsecas:
+      valor: "escalar real OU None (caso unidade-isolada — v1.1)"
+      dimensao: "vetor em ℤ⁷ (sistema SI)"
+      incerteza: "distribuição sobre o valor (None se valor é None)"
+    invariantes:
+      - "dimensão sempre presente (adimensional = vetor zero)"
+      - "operações entre instâncias respeitam álgebra dimensional"
+      - "instância sem valor (valor=None) é válida E expressa unidade isolada (ex.: 'kgf/cm²')"
+      - "instância sem dimensão NÃO é GrandezaFisica — é Numero (v1.1)"
+    extensao_v1_1: |
+      Em v1.0, `valor` era obrigatório — strings como 'kgf/cm²' iam para
+      ProsaTecnica ou ExpressaoSimbolica. Em v1.1, `valor=None` indica
+      unidade-isolada legítima. Espelha Pint.parse_expression('kgf/cm²')
+      que retorna Quantity(magnitude=1, units=kgf/cm²) mas Enedina opta
+      por None em vez de 1 implícito — sem inferência silenciosa.
+    exemplos:
+      - "350 MPa"             # valor=350, unit=MPa
+      - "1.5e-3 Pa·s"         # valor=1.5e-3, unit=Pa·s
+      - "350 ± 10 MPa"        # valor=350, incerteza=10
+      - "9.81 m/s²"           # valor=9.81, unit=m/s²
+      - "kgf/cm²"             # valor=None, unit=kgf/cm² (v1.1)
+      - "kN·m"                # valor=None, unit=kN·m (v1.1)
+      - "m/s"                 # valor=None, unit=m/s (v1.1)
+
+  Numero:
+    natureza: "Valor escalar real sem dimensão física associada — entidade primária do mundo abstrato"
+    propriedades_intrinsecas:
+      valor: "escalar real (obrigatório, em representação IEEE 754 double)"
+      locale: "código ISO — pt-br | en | mixed | none"
+      representacao: "decimal | cientifica | inteira | fracionaria | percentual"
+      sinal: "positivo | negativo | zero"
+    invariantes:
+      - "valor recuperável byte-exato a partir da string original (modulo precisão IEEE 754)"
+      - "preserva locale declarado (sem inferência silenciosa entre PT-BR e US)"
+      - "distinto de GrandezaFisica — Numero NÃO tem dimensão física"
+      - "distinto de ConstanteUniversal — Numero não tem símbolo nomeado canônico"
+      - "distinto de ProsaTecnica — Numero é entidade formal com valor exato"
+      - "distinto de ExpressaoSimbolica — Numero é átomo escalar, não composição"
+    racional_ontologico: |
+      Justificativa P1 (tipos são intrínsecos): número possui propriedades
+      intrínsecas (valor ℝ, locale, representação, sinal) independentes
+      de contexto. NÃO é caso degenerado de GrandezaFisica (esta exige
+      dimensão), NEM ConstanteUniversal (esta exige símbolo nomeado),
+      NEM ProsaTecnica (esta não tem estrutura formal). Portanto demanda
+      tipo próprio (ver P1+P4).
+
+      Justificativa empírica (SPEC_05 Stage 4): Enedina v1.0 perdia em
+      H4 (numerical reconstruction) porque números soltos (`100`,
+      `1.234,56`, `1,38 × 10⁻²³`) caíam em ProsaTecnica, sem valor
+      extraível. Quantulum3 venceu nesses casos (match_rate 0.65-0.70
+      vs Enedina 0.16-0.26). Numero como tipo formal espelha o que
+      Q3 faz na prática, mas como capacidade arquitetural do framework
+      (não wrapper).
+
+      Justificativa SOTA: Yang et al. 2024 (Number Cookbook, ICLR 2025)
+      e Singh-Strouse 2024 mostram que tokenização adequada de números
+      (preservando estrutura digital, magnitude, locale, sinal) é gap
+      aberto na literatura 2024-2026. Numero como tipo primeiro-classe
+      permite emitir tag rica que LLM consumidor pode usar para
+      aritmética correta — endereçando 9.11 > 9.9 problem em PT-BR.
+    composicoes: []
+    exemplos:
+      - "100"                  # valor=100.0, locale=none, repr=inteira, sinal=positivo
+      - "1.234,56"             # valor=1234.56, locale=pt-br, repr=decimal
+      - "1,38 × 10⁻²³"         # valor=1.38e-23, locale=pt-br, repr=cientifica
+      - "−273,15"              # valor=-273.15, locale=pt-br, sinal=negativo
+      - "3/4"                  # valor=0.75, repr=fracionaria
+      - "0,75"                 # valor=0.75, locale=pt-br
+
+  Referencia:
+    natureza: "Referência hierárquica estrutural-normativa — entidade primária do mundo legal/normativo"
+    propriedades_intrinsecas:
+      hierarquia: "string preservando forma original (8.2.1, 14.2.3, 5.3.1.2)"
+    invariantes:
+      - "hierarquia preservada byte-exata a partir da string original"
+      - "captura APENAS quando precedida por enumerador normativo (parágrafo, §, art., inciso, alínea, lei, decreto, norma, regulamento)"
+      - "distinto de Numero — Referencia NÃO tem valor numérico interpretável"
+      - "distinto de IdentificadorTecnico — IDX identifica material/norma como objeto primário; REF identifica subdivisão estrutural dentro de uma norma"
+      - "distinto de GrandezaFisica — Referencia NÃO tem dimensão física"
+      - "distinto de ProsaTecnica — Referencia é entidade atômica nomeada"
+    racional_ontologico: |
+      Justificativa P1 (tipos são intrínsecos): referência hierárquica
+      tem propriedade intrínseca única (hierarquia preservada literal)
+      e contexto de captura inequívoco (enumerador normativo antes).
+      NÃO é caso degenerado de Numero — perde semântica de valor
+      interpretável quando aplicada a referência (`8.2.1` não é
+      8.2 + 1, nem 8 × 0.2 × 0.1; é endereço hierárquico).
+
+      Justificativa empírica: textos legais/normativos PT-BR
+      (ENEM, vestibulares de direito, normas técnicas NBR) usam
+      `§ 8.2.1`, `parágrafo 14.2.3`, `art. 5° § 2 inciso III` como
+      padrão canônico. Enedina v0.7 fragmentava `8.2.1` em
+      `[NUM value=8.2]` + `.` + `[NUM value=1]`, perdendo atomicidade
+      e introduzindo interpretação numérica incorreta.
+
+      Justificativa estrutural: presença de enumerador normativo
+      antecedente é sinal forte inequívoco. Sem enumerador, mesmo
+      padrão `\d+(\.\d+)+` pode ser número decimal (`3.14`), versão
+      de software (`1.2.3`), ou data — contexto determina. Captura
+      condicional preserva ambos os usos.
+    composicoes: []
+    exemplos:
+      - "8.2.1"                # após `§` ou `parágrafo`
+      - "14.2.3"               # após `art.` ou `inciso`
+      - "5.3.1.2"              # após `alínea`
+      - "1.2"                  # após `seção`
+      - "50%"                  # valor=0.5 (convenção: % divide por 100), repr=percentual
+
+  ProsaTecnica:
+    natureza: "Discurso natural em domínio técnico"
+    propriedades_intrinsecas:
+      idioma: "código ISO 639"
+      registro: "técnico"
+    invariantes:
+      - "não numérico"
+      - "obedece sintaxe natural humana do idioma"
+      - "carrega significado por coocorrência estatística"
+    exemplos:
+      - "a tensão máxima encontrada foi"
+      - "considerando-se o regime elástico"
+
+  IdentificadorTecnico:
+    natureza: "Nomenclatura especializada com semântica fixa"
+    propriedades_intrinsecas:
+      classe: "norma | material | metodo | equipamento | grandeza_adimensional"
+      referente_canonico: "identificador único no namespace técnico"
+    invariantes:
+      - "identidade preservada — fragmentar destrói referência"
+      - "não-composicional — significado não derivável de partes"
+    exemplos:
+      - "ER70S-6"
+      - "ABNT NBR 12655"
+      - "AISI 304"
+      - "Re"
+      - "Nu"
+      - "Pr"
+
+  OperadorFormal:
+    natureza: "Símbolo que denota operação ou relação"
+    propriedades_intrinsecas:
+      aridade: "inteiro ≥ 1"
+      semantica_formal: "função matemática ou relação"
+      dominio_codominio: "tipos permitidos como operandos e resultado"
+    invariantes:
+      - "atômico — não fragmentável"
+      - "semântica fixa e formal"
+    exemplos:
+      - "="
+      - "≤"
+      - "∑"
+      - "∫"
+      - "∂"
+      - "∇"
+      - "→"
+      - "⇒"
+
+  ConstanteUniversal:
+    natureza: "Valor fixo do mundo físico ou matemático"
+    propriedades_intrinsecas:
+      simbolo: "caractere ou nome curto"
+      grandeza_associada: "GrandezaFisica (composição)"
+    invariantes:
+      - "símbolo identifica unicamente"
+      - "grandeza_associada é GrandezaFisica completa"
+    composicoes:
+      - GrandezaFisica
+    exemplos:
+      - "π"
+      - "e"
+      - "ℏ"
+      - "k_B"
+      - "c"
+      - "N_A"
+      - "G"
+
+  RelacaoEstrutural:
+    natureza: "Conector lógico-estrutural do discurso"
+    propriedades_intrinsecas:
+      funcao_logica: "condicional | conjuntiva | disjuntiva | causal | conclusiva"
+    invariantes:
+      - "carrega estrutura lógica, não conteúdo"
+    exemplos:
+      - "então"
+      - "portanto"
+      - "dado que"
+      - "logo"
+      - "se e somente se"
+
+  ExpressaoSimbolica:
+    natureza: "Combinação algébrica de IdentificadorTecnico + OperadorFormal em variáveis livres"
+    propriedades_intrinsecas:
+      forma_canonica: "árvore SymPy (sympy.Expr)"
+      variaveis_livres: "conjunto de símbolos não-atômicos do dim_table"
+      ariedade: "qualquer (zero ou mais operandos)"
+    invariantes:
+      - "parseável por sympy.sympify após pre-normalização Unicode"
+      - "free_symbols contém ≥1 símbolo que NÃO é átomo do dim_table (caso contrário é GrandezaFisica composta como kg/m²)"
+      - "fragmentar a expressão destrói a relação algébrica entre os termos"
+    composicoes:
+      - IdentificadorTecnico
+      - OperadorFormal
+    exemplos:
+      - "pl/12"
+      - "(pl²/32)·∛2"
+      - "3l/4"
+      - "p(x/l)²"
+      - "E·I·d²y/dx²"
+      - "α_p·|σ_cp|"
+
+# ---------------------------------------------------------------------------
+# Política de resolução de ambiguidade (Camada 2 — Classificador)
+# ---------------------------------------------------------------------------
+# Quando um trecho satisfaz simultaneamente classificação em mais de um tipo,
+# vence a classificação MAIS ESPECÍFICA — i.e., a que declara mais
+# propriedades intrínsecas. Ordem de especificidade (decrescente, v1.1):
+#
+#   GrandezaFisica > ConstanteUniversal > Numero > IdentificadorTecnico
+#                  > OperadorFormal > ExpressaoSimbolica > RelacaoEstrutural
+#                  > ProsaTecnica
+#
+# Posicionamento de Numero (v1.1): específico (carrega valor + locale + repr)
+# mas menos específico que GrandezaFisica/ConstanteUniversal (estes têm
+# dimensão ou símbolo nomeado). Sit between ConstanteUniversal (símbolo)
+# e IdentificadorTecnico (sem valor numérico) — Numero captura escalar
+# puro abstrato.
+#
+# ExpressaoSimbolica é composição MEDIADA (princípio P3) de IdentificadorTecnico
+# + OperadorFormal — fica entre eles e RelacaoEstrutural por ser menos atômica
+# que seus componentes mas mais específica que prosa/conector.
+#
+# Fonte: SPEC §3.3 "ambiguidades são resolvidas por princípio de maior especificidade".
+resolucao_ambiguidade:
+  estrategia: "maior_especificidade"
+  ordem:
+    - GrandezaFisica
+    - ConstanteUniversal
+    - Referencia           # v1.2 — referência hierárquica normativa
+    - Numero               # v1.1
+    - IdentificadorTecnico
+    - OperadorFormal
+    - ExpressaoSimbolica
+    - RelacaoEstrutural
+    - ProsaTecnica

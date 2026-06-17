@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "TOTEN: Typed Ontological Tokenization"
+abstract: >-
+  Knowledge-based ontological tokenization that replaces statistical vocabulary derivation with
+  declarative classification grounded in a formal ontology of engineering entities (OEE),
+  deterministically coupled to three external oracles (Pint, the Unicode Character Database,
+  and RSLP).
+type: software
+version: "0.1.0"
+license: Apache-2.0
+repository-code: "https://github.com/aiacontext/toten"
+authors:
+  - family-names: "Leitão Filho"
+    given-names: "Antonio de Sousa"
+    orcid: "https://orcid.org/0009-0002-1705-3611"
+    affiliation: "Aia Context"
+  - family-names: "Barros Filho"
+    given-names: "Allan Kardec Duailibe"
+    orcid: "https://orcid.org/0000-0002-1654-0955"
+    affiliation: "Universidade Federal do Maranhão"
+  - family-names: "Lima"
+    given-names: "Fabrício Saul"
+    affiliation: "Aia Context"
+  - family-names: "Santos"
+    given-names: "Selby Mykael Lima dos"
+    affiliation: "Aia Context"
+  - family-names: "Sousa"
+    given-names: "Rejani Bandeira Vieira"
+    affiliation: "Aia Context"

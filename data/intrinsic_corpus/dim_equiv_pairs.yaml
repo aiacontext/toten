@@ -1,0 +1,440 @@
+# Corpus sintético para SPEC_05 Stage 2 — Equivalência Dimensional.
+#
+# Cada par declara dois strings (a, b) com expected ∈ {equivalent, incoherent}.
+# Equivalent: a e b representam o MESMO vetor dimensional ℤ⁷ no SI (mesma grandeza
+#   física fundamental, valores podem diferir por escala — sistema deve reconhecer
+#   a equivalência dimensional, não numérica).
+# Incoherent: a e b representam dimensões INCOMPATÍVEIS (e.g., comprimento + massa).
+#
+# Cobertura buscada:
+#   - Conversões clássicas BR↔SI (tf↔kN, kgf/cm²↔Pa, mmHg↔Pa, cv↔W)
+#   - Identidades em sistemas diferentes (kN·m ≡ kJ, Pa ≡ N/m²)
+#   - Variantes notacionais da mesma unidade (·, /, ², etc.)
+#   - Pseudo-incoerências sutis (Pa vs N/m vs N/m² — duas iguais, uma não)
+#   - Adimensionais (rad, sr, %, ppm)
+#
+# Versão: 1.0 (2026-05-30, curadoria inicial)
+# Schema: pairs[] com a, b, expected, kind, notes
+
+schema_version: "1.0"
+
+pairs:
+
+  # ----- 1. Identidades fundamentais SI -----
+  - a: "1 kN·m"
+    b: "1000 N·m"
+    expected: equivalent
+    kind: identity_si
+    notes: "momento/energia, mesma dim [M L² T⁻²]"
+
+  - a: "1 kJ"
+    b: "1000 N·m"
+    expected: equivalent
+    kind: identity_si
+    notes: "energia em J ≡ N·m"
+
+  - a: "1 kN·m"
+    b: "1 kJ"
+    expected: equivalent
+    kind: identity_si
+    notes: "momento ↔ energia (mesma dim, contextos diferentes)"
+
+  - a: "1 Pa"
+    b: "1 N/m²"
+    expected: equivalent
+    kind: identity_si
+    notes: "pressão SI definição"
+
+  - a: "1 kPa"
+    b: "1000 Pa"
+    expected: equivalent
+    kind: identity_si
+    notes: "prefixo decimal"
+
+  - a: "1 MPa"
+    b: "1 N/mm²"
+    expected: equivalent
+    kind: identity_si
+    notes: "engenharia estrutural — tensão"
+
+  - a: "1 GPa"
+    b: "1000 MPa"
+    expected: equivalent
+    kind: identity_si
+
+  - a: "1 W"
+    b: "1 J/s"
+    expected: equivalent
+    kind: identity_si
+
+  - a: "1 W"
+    b: "1 N·m/s"
+    expected: equivalent
+    kind: identity_si
+
+  - a: "1 N"
+    b: "1 kg·m/s²"
+    expected: equivalent
+    kind: identity_si
+    notes: "definição de Newton"
+
+  # ----- 2. Conversões BR↔SI (engenharia estrutural) -----
+  - a: "1 tf"
+    b: "9.80665 kN"
+    expected: equivalent
+    kind: br_to_si
+    notes: "tonelada-força ≡ 1000 kgf ≡ 1000·9.80665 N ≈ 9.807 kN"
+
+  - a: "1 kgf"
+    b: "9.80665 N"
+    expected: equivalent
+    kind: br_to_si
+    notes: "quilograma-força (gravidade padrão)"
+
+  - a: "1 kgf/cm²"
+    b: "98066.5 Pa"
+    expected: equivalent
+    kind: br_to_si
+    notes: "tensão BR clássica para Pa"
+
+  - a: "1 kgf/cm²"
+    b: "98.0665 kPa"
+    expected: equivalent
+    kind: br_to_si
+
+  - a: "1 tf·m"
+    b: "9.80665 kN·m"
+    expected: equivalent
+    kind: br_to_si
+    notes: "momento BR (vigas, viga-pilar)"
+
+  - a: "1 tf/m"
+    b: "9.80665 kN/m"
+    expected: equivalent
+    kind: br_to_si
+    notes: "carga distribuída BR"
+
+  - a: "1 tf/m²"
+    b: "9.80665 kPa"
+    expected: equivalent
+    kind: br_to_si
+
+  - a: "1 tf/m³"
+    b: "9.80665 kN/m³"
+    expected: equivalent
+    kind: br_to_si
+    notes: "peso específico BR"
+
+  - a: "1 cv"
+    b: "735.49875 W"
+    expected: equivalent
+    kind: br_to_si
+    notes: "cavalo-vapor métrico BR (não HP imperial)"
+
+  - a: "1 mmHg"
+    b: "133.322 Pa"
+    expected: equivalent
+    kind: br_to_si
+    notes: "pressão hidrostática histórica"
+
+  # ----- 3. Variantes notacionais (mesma unidade, formas diferentes) -----
+  - a: "kN·m"
+    b: "kN m"
+    expected: equivalent
+    kind: notation_variant
+    notes: "ponto médio (·) ↔ espaço como separador multiplicação"
+
+  - a: "kN·m"
+    b: "kN*m"
+    expected: equivalent
+    kind: notation_variant
+    notes: "asterisco ASCII ↔ ponto médio Unicode"
+
+  - a: "kN·m"
+    b: "N·m·10³"
+    expected: equivalent
+    kind: notation_variant
+    notes: "prefixo k em forma explícita"
+
+  - a: "kgf/cm²"
+    b: "kgf·cm⁻²"
+    expected: equivalent
+    kind: notation_variant
+    notes: "divisão ↔ expoente negativo"
+
+  - a: "kgf/cm²"
+    b: "kgf/cm^2"
+    expected: equivalent
+    kind: notation_variant
+    notes: "superscript Unicode ↔ caret ASCII"
+
+  - a: "m/s²"
+    b: "m·s⁻²"
+    expected: equivalent
+    kind: notation_variant
+
+  - a: "rad/s"
+    b: "s⁻¹"
+    expected: equivalent
+    kind: notation_variant
+    notes: "radiano adimensional formalmente"
+
+  - a: "J/(kg·K)"
+    b: "J·kg⁻¹·K⁻¹"
+    expected: equivalent
+    kind: notation_variant
+    notes: "calor específico — divisão grupada vs produto negativo"
+
+  - a: "W/(m·K)"
+    b: "W·m⁻¹·K⁻¹"
+    expected: equivalent
+    kind: notation_variant
+    notes: "condutividade térmica"
+
+  - a: "kg/m³"
+    b: "kg·m⁻³"
+    expected: equivalent
+    kind: notation_variant
+    notes: "densidade"
+
+  # ----- 4. Identidades não-triviais (engenharia) -----
+  - a: "1 V"
+    b: "1 W/A"
+    expected: equivalent
+    kind: identity_si
+    notes: "Volt = Watt/Ampere"
+
+  - a: "1 Ω"
+    b: "1 V/A"
+    expected: equivalent
+    kind: identity_si
+    notes: "Ohm (resistência)"
+
+  - a: "1 F"
+    b: "1 C/V"
+    expected: equivalent
+    kind: identity_si
+    notes: "Farad (capacitância)"
+
+  - a: "1 Hz"
+    b: "1 s⁻¹"
+    expected: equivalent
+    kind: identity_si
+
+  - a: "1 T"
+    b: "1 kg/(A·s²)"
+    expected: equivalent
+    kind: identity_si
+    notes: "Tesla (campo magnético)"
+
+  - a: "1 Pa·s"
+    b: "1 kg/(m·s)"
+    expected: equivalent
+    kind: identity_si
+    notes: "viscosidade dinâmica"
+
+  # ----- 5. Adimensionais -----
+  - a: "rad"
+    b: "1"
+    expected: equivalent
+    kind: dimensionless
+    notes: "radiano = adimensional (m/m)"
+
+  - a: "%"
+    b: "1"
+    expected: equivalent
+    kind: dimensionless
+    notes: "porcentagem é adimensional"
+
+  - a: "ppm"
+    b: "1e-6"
+    expected: equivalent
+    kind: dimensionless
+    notes: "parts per million escalar adimensional"
+
+  - a: "sr"
+    b: "1"
+    expected: equivalent
+    kind: dimensionless
+    notes: "esterradiano (ângulo sólido)"
+
+  # ----- 6. Equivalências sutis (mesma dim, contextos diferentes) -----
+  - a: "1 N·s"
+    b: "1 kg·m/s"
+    expected: equivalent
+    kind: identity_si
+    notes: "impulso ≡ momento linear"
+
+  - a: "1 J·s"
+    b: "1 kg·m²/s"
+    expected: equivalent
+    kind: identity_si
+    notes: "ação (constante de Planck) ≡ momento angular"
+
+  - a: "1 C"
+    b: "1 A·s"
+    expected: equivalent
+    kind: identity_si
+    notes: "Coulomb (carga)"
+
+  # ----- 7. INCOERÊNCIAS DIMENSIONAIS -----
+  - a: "5 m"
+    b: "10 kg"
+    expected: incoherent
+    kind: cross_dim
+    notes: "comprimento + massa — diferentes vetores fundamentais"
+
+  - a: "1 Pa"
+    b: "1 N"
+    expected: incoherent
+    kind: cross_dim
+    notes: "pressão (F/A) vs força (F)"
+
+  - a: "1 W"
+    b: "1 J"
+    expected: incoherent
+    kind: cross_dim
+    notes: "potência (J/s) vs energia (J)"
+
+  - a: "1 m²"
+    b: "1 m³"
+    expected: incoherent
+    kind: cross_dim
+    notes: "área vs volume"
+
+  - a: "1 m"
+    b: "1 s"
+    expected: incoherent
+    kind: cross_dim
+    notes: "comprimento vs tempo"
+
+  - a: "1 kg/m³"
+    b: "1 kg/m²"
+    expected: incoherent
+    kind: cross_dim
+    notes: "densidade vs densidade superficial"
+
+  - a: "1 V"
+    b: "1 A"
+    expected: incoherent
+    kind: cross_dim
+    notes: "tensão elétrica vs corrente"
+
+  - a: "1 Hz"
+    b: "1 rad/s"
+    expected: equivalent
+    kind: identity_si
+    notes: "Hz e rad/s têm mesma dim [T⁻¹] formalmente (controverso pedagógico, mas correto fisicamente)"
+
+  - a: "1 K"
+    b: "1 °C"
+    expected: equivalent
+    kind: identity_si
+    notes: "Kelvin e Celsius diferem por offset mas têm mesma DIMENSÃO (temperatura)"
+
+  - a: "1 N·m"
+    b: "1 N/m"
+    expected: incoherent
+    kind: cross_dim
+    notes: "momento (N·m) vs constante de mola (N/m) — confusão clássica"
+
+  - a: "1 kN/m"
+    b: "1 kN/m²"
+    expected: incoherent
+    kind: cross_dim
+    notes: "carga distribuída linear vs pressão"
+
+  - a: "1 J"
+    b: "1 J/K"
+    expected: incoherent
+    kind: cross_dim
+    notes: "energia vs entropia"
+
+  - a: "1 Pa·s"
+    b: "1 Pa/s"
+    expected: incoherent
+    kind: cross_dim
+    notes: "viscosidade vs taxa de variação de pressão"
+
+  - a: "1 g"
+    b: "1 g/cm³"
+    expected: incoherent
+    kind: cross_dim
+    notes: "massa vs densidade"
+
+  # ----- 8. Incoerências entre BR e SI (mesma "letra", dim diferente) -----
+  - a: "1 t"
+    b: "1 tf"
+    expected: incoherent
+    kind: cross_dim_br_trap
+    notes: "tonelada (massa) vs tonelada-força — armadilha BR clássica"
+
+  - a: "1 mt"
+    b: "1 tf"
+    expected: incoherent
+    kind: cross_dim_br_trap
+    notes: "milhar-tonelada vs tonelada-força (mt ambíguo na prática BR)"
+
+  - a: "1 cm·m"
+    b: "1 cm/m"
+    expected: incoherent
+    kind: cross_dim
+    notes: "área vs adimensional"
+
+  # ----- 9. Casos compostos engenharia -----
+  - a: "1 kN/(mm²)"
+    b: "1 GPa"
+    expected: equivalent
+    kind: br_to_si
+    notes: "MPa·1000 = GPa via cm/mm cancelamento"
+
+  - a: "1 tf·m"
+    b: "1 kJ"
+    expected: incoherent
+    kind: cross_dim
+    notes: "momento (BR) vs energia — dimensões MESMAS mas valores diferentes; aqui testa coerência numérica também (incoherent porque 1 tf·m ≈ 9.8 kJ, não 1)"
+
+  - a: "1 N/m²"
+    b: "1 Pa"
+    expected: equivalent
+    kind: identity_si
+
+  - a: "1 lbf"
+    b: "4.44822 N"
+    expected: equivalent
+    kind: imperial_to_si
+    notes: "libra-força (raro em BR mas referência internacional)"
+
+  - a: "1 psi"
+    b: "6894.76 Pa"
+    expected: equivalent
+    kind: imperial_to_si
+    notes: "psi clássico"
+
+  - a: "1 ksi"
+    b: "1000 psi"
+    expected: equivalent
+    kind: imperial_to_si
+
+  - a: "1 BTU"
+    b: "1055.06 J"
+    expected: equivalent
+    kind: imperial_to_si
+
+  # ----- 10. Casos com fração de unidades (variação tipográfica) -----
+  - a: "kg/(m·s²)"
+    b: "Pa"
+    expected: equivalent
+    kind: identity_si
+    notes: "pressão em forma fundamental SI"
+
+  - a: "kg·m²/(A²·s³)"
+    b: "Ω"
+    expected: equivalent
+    kind: identity_si
+    notes: "Ohm em forma fundamental SI"
+
+  - a: "1/(kg·m)"
+    b: "kg⁻¹·m⁻¹"
+    expected: equivalent
+    kind: notation_variant

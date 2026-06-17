@@ -1,0 +1,130 @@
+{
+  "version": "0.1.0",
+  "comment": "Tabela ATÔMICA de unidades ADIMENSIONAIS úteis (razões, logarítmicas, ângulos planos, ângulos sólidos). AUTO-GERADA por scripts/build_dimensionless_units.py — não editar à mão. Whitelist explícita por nome canônico; Pint fornece factor de razão para conversão. Princípio ontológico (responsabilidade única): unidades SEM dimensão SI (`dim_vec = 0`) vivem aqui, separadas de dim_table.json (SI físico ℤ⁷), info_units.json (informação/visualização) e constant_lexicon (constantes nomeadas com valor).",
+  "atoms": {
+    "%": {
+      "factor": 0.01,
+      "category": "ratio"
+    },
+    "Np": {
+      "factor": 7.38905609893065,
+      "category": "logarithmic_ratio"
+    },
+    "angular_degree": {
+      "factor": 0.017453292519943295,
+      "category": "angle"
+    },
+    "angular_minute": {
+      "factor": 0.00029088820866572163,
+      "category": "angle"
+    },
+    "angular_second": {
+      "factor": 4.84813681109536e-06,
+      "category": "angle"
+    },
+    "arc_minute": {
+      "factor": 0.00029088820866572163,
+      "category": "angle"
+    },
+    "arc_second": {
+      "factor": 4.84813681109536e-06,
+      "category": "angle"
+    },
+    "arcmin": {
+      "factor": 0.00029088820866572163,
+      "category": "angle"
+    },
+    "arcminute": {
+      "factor": 0.00029088820866572163,
+      "category": "angle"
+    },
+    "arcsec": {
+      "factor": 4.84813681109536e-06,
+      "category": "angle"
+    },
+    "arcsecond": {
+      "factor": 4.84813681109536e-06,
+      "category": "angle"
+    },
+    "dB": {
+      "factor": 1.2589254117941673,
+      "category": "logarithmic_ratio"
+    },
+    "decibel": {
+      "factor": 1.2589254117941673,
+      "category": "logarithmic_ratio"
+    },
+    "deg": {
+      "factor": 0.017453292519943295,
+      "category": "angle"
+    },
+    "degree": {
+      "factor": 0.017453292519943295,
+      "category": "angle"
+    },
+    "gon": {
+      "factor": 0.015707963267948967,
+      "category": "angle"
+    },
+    "gradian": {
+      "factor": 0.015707963267948967,
+      "category": "angle"
+    },
+    "neper": {
+      "factor": 7.38905609893065,
+      "category": "logarithmic_ratio"
+    },
+    "percent": {
+      "factor": 0.01,
+      "category": "ratio"
+    },
+    "permille": {
+      "factor": 0.001,
+      "category": "ratio"
+    },
+    "ppm": {
+      "factor": 1e-06,
+      "category": "ratio"
+    },
+    "ppt": {
+      "factor": 4.731764729999999e-16,
+      "category": "ratio"
+    },
+    "rad": {
+      "factor": 1.0,
+      "category": "angle"
+    },
+    "radian": {
+      "factor": 1.0,
+      "category": "angle"
+    },
+    "sq_deg": {
+      "factor": 0.00030461741978670857,
+      "category": "solid_angle"
+    },
+    "sqdeg": {
+      "factor": 0.00030461741978670857,
+      "category": "solid_angle"
+    },
+    "square_degree": {
+      "factor": 0.00030461741978670857,
+      "category": "solid_angle"
+    },
+    "sr": {
+      "factor": 1.0,
+      "category": "solid_angle"
+    },
+    "steradian": {
+      "factor": 1.0,
+      "category": "solid_angle"
+    },
+    "°": {
+      "factor": 0.017453292519943295,
+      "category": "angle"
+    },
+    "‰": {
+      "factor": 0.001,
+      "category": "ratio"
+    }
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "version": "0.1.0",
+  "comment": "Padrões estruturais de ExpressaoSimbolica — análogos às subcategorias do identifier_lexicon. Cada classe captura uma forma reconhecível da notação matemática universal em engenharia. Princípio P8: toda ExpressaoSimbolica tem marca matemática distintiva (dígito, subscript, superscript Unicode, parens de função, símbolo de cálculo Unicode, função matemática nomeada). SymPy é autoridade externa que valida cada captura; dim_table veto remove unidades compostas (kg/m², tf·m). Composição mediada (P3) + convenção tipográfica (P6) + marca matemática (P8) substituem qualquer heurística anti-falso-positivo. Cobertura inclui: funções matemáticas nomeadas (log, ln, sin, cos, exp, sqrt, ...), funções aplicadas genéricas (M(x), f(t)), monômios com coeficiente (3l, 0.093793x^2), derivadas, integrais, somatórios, potenciação, expressões compostas sem espaço, expressões com soma espaçada, valor absoluto, radicais.",
+
+  "funcoes_matematicas_nomeadas": [
+    "log", "ln", "log10", "log_2", "log_10",
+    "sin", "sen", "cos", "tan", "tg",
+    "cot", "cotg", "sec", "csc", "cosec",
+    "arcsin", "arcsen", "arccos", "arctan", "arctg",
+    "asin", "acos", "atan", "atan2",
+    "sinh", "senh", "cosh", "tanh", "tgh",
+    "exp", "expt",
+    "sqrt", "cbrt",
+    "abs", "sign", "signum",
+    "min", "max",
+    "floor", "ceil", "round",
+    "ent", "frac",
+    "Re", "Im", "conj",
+    "lim", "sup", "inf"
+  ],
+
+  "classes": [
+    {
+      "classe": "notacao_latex",
+      "bypass_p8": true,
+      "atomic_over_protected": true,
+      "comment": "Comandos LaTeX: \\alpha, \\frac{a}{b}, \\sum_{i=1}^{n}, \\int_a^b f(x) dx, \\sqrt{x}, \\nabla, \\cdot, \\partial, etc. Estrutura sintática inequívoca de markup LaTeX/AMS-math. Casa \\cmd opcionalmente seguido de subscript _{...} ou _X, sobrescrito ^{...} ou ^X, e/ou argumentos {...}. Bypass P8 e atomic over protected — markup LaTeX é unidade indissociável.",
+      "regex": "\\\\[a-zA-Z]+(?:_(?:\\{[^{}]{0,40}\\}|[a-zA-Z0-9]))?(?:\\^(?:\\{[^{}]{0,40}\\}|[a-zA-Z0-9]))?(?:\\{[^{}]{0,60}\\}){0,3}",
+      "exemplos": ["\\alpha", "\\frac{a}{b}", "\\sum_{i=1}^{n}", "\\int_0^L", "\\sqrt{2}", "\\nabla", "\\cdot", "\\partial"]
+    },
+
+    {
+      "classe": "notacao_dirac_bra_ket",
+      "bypass_p8": true,
+      "atomic_over_protected": true,
+      "comment": "Notação bra-ket de Dirac (mecânica quântica): |ψ⟩ (ket), ⟨ψ| (bra), ⟨ψ|H|φ⟩ (matriz). Argumentos podem incluir parens internos (|ψ(t)⟩, D(α)|0⟩) e LaTeX subscript (|n,l,m⟩, |k+1⟩). Princípio: presença SIMULTÂNEA de delimitadores Unicode angle bracket (⟨ U+27E8 / ⟩ U+27E9) com pipe ASCII (|) constitui assinatura inequívoca de notação Dirac — não confundível com prosa. Atomic over protected: o sandwich bra-ket é unidade indissociável.",
+      "regex": "\\|[[\\p{L}\\p{M}\\p{N}_·*/+\\-^()²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″\\s]--[=<>~]]{1,60}⟩|⟨[[\\p{L}\\p{M}\\p{N}_·*/+\\-^()²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″\\s\\|]--[=<>~]]{1,100}⟩|⟨[[\\p{L}\\p{M}\\p{N}_·*/+\\-^()²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″\\s]--[=<>~]]{1,60}\\|",
+      "exemplos": ["|ψ⟩", "⟨ψ|", "⟨ψ|H|φ⟩", "|n,l,m⟩", "⟨x|p⟩", "|ψ(t)⟩", "D(α)|0⟩"]
+    },
+
+    {
+      "classe": "integral_definida",
+      "bypass_p8": true,
+      "comment": "Integral com limites em sub/sup Unicode ou _a^b, terminada por `dx`/`dy`. Estrutura `∫...d<var>` é marca matemática intrínseca — bypass P8.",
+      "regex": "∫[^∫\\n]{0,150}?\\sd[\\p{L}\\p{M}]\\b",
+      "exemplos": ["∫₀ˡ q(x) dx", "∫_a^b f(x) dx", "∫ p·(x/l)² dx"]
+    },
+
+    {
+      "classe": "somatorio_produtorio",
+      "bypass_p8": true,
+      "comment": "Somatório (∑) ou produtório (∏) com OPERANDO obrigatório. Exige (a) subscript de índice imediato `_<idx>` OU (b) operando JUSTAPOSTO sem espaço (∑x_i) OU (c) sup notation imediato `^<n>`. `∑` sozinho com espaço (`x ∑ y`) NÃO casa — nesse contexto ∑ é OperadorFormal, capturado pela Camada 1.",
+      "regex": "[∑∏](?:_(?:\\{[a-zA-Z0-9=,\\s]{1,20}\\}|[a-zA-Z0-9=,]{1,10}))(?:\\^(?:\\{[a-zA-Z0-9]{1,10}\\}|[a-zA-Z0-9]+))?\\s*[\\w_α-ω()²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉.]*|[∑∏](?:\\^(?:\\{[a-zA-Z0-9]{1,10}\\}|[a-zA-Z0-9]+))?[\\w_α-ω()²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉.]+",
+      "exemplos": ["∑x_i", "∑_i x_i", "∏_{n=1}^∞ a_n", "∑F_x", "∑_{i=1}^n a_i"]
+    },
+
+    {
+      "classe": "derivada",
+      "bypass_p8": true,
+      "comment": "Derivada total (d) ou parcial (∂) com ordem opcional via sup Unicode. Padrão estrutural muito específico — bypass P8.",
+      "regex": "(?:\\bd|∂)[²³⁴]?[\\p{L}\\p{M}][_a-zA-Z0-9_α-ωΑ-ΩØáàâãäéèêëíìîïóòôõöúùûüçñÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇÑ]*\\s*/\\s*(?:d|∂)[\\p{L}\\p{M}][_a-zA-Z0-9_α-ωΑ-ΩØáàâãäéèêëíìîïóòôõöúùûüçñÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇÑ]*[²³⁴]?",
+      "exemplos": ["dM/dx", "d²y/dx²", "∂σ/∂x", "∂²u/∂t²", "dQ/dx"]
+    },
+
+    {
+      "classe": "funcao_matematica_nomeada",
+      "bypass_p8": true,
+      "atomic_over_protected": true,
+      "comment": "Funções matemáticas canônicas (log, sin, exp, sqrt...) aplicadas a argumento. Específica — vence funcao_aplicada_generica via longest-match. Aceita 1 nível de parens aninhados no argumento (exp(-E_a/(R_g·T))). Atômica sobre protected: absorve CONST/IDX internos preservando a aplicação de função como mediador P3.",
+      "regex": "\\b(?:log10|log_10|log_2|arcsin|arcsen|arccos|arctan|arctg|asin|acos|atan2|atan|sinh|senh|cosh|tanh|tgh|log|ln|sin|sen|cos|tan|tg|cot|cotg|sec|csc|cosec|exp|sqrt|cbrt|abs|sign|signum|min|max|floor|ceil|round|ent|frac|lim|sup|inf|Re|Im|conj)\\((?:[^()\\n]|\\([^()\\n]{0,40}\\)){1,80}\\)",
+      "exemplos": ["log(x)", "ln(P/P_0)", "sin(θ)", "cos(2x)", "exp(-x)", "sqrt(a²+b²)", "arctan(y/x)", "abs(σ)"]
+    },
+
+    {
+      "classe": "funcao_aplicada_generica",
+      "bypass_p8": true,
+      "atomic_over_protected": true,
+      "comment": "Função qualquer com nome de 1-4 chars (M, Q, q, f, g, σ, ε) ou com subscript aplicada a argumento. Estrutura nome+parens é marca intrínseca — bypass P8. Atômica sobre protected: absorve CONST/IDX internos.",
+      "regex": "\\b[\\p{L}\\p{M}][a-zA-Z0-9_α-ωΑ-ΩØáàâãäéèêëíìîïóòôõöúùûüçñÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇÑ]{0,3}\\([[\\p{L}\\p{M}0-9_+\\-·*/^²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″\\s]--[=<>~]]{1,40}\\)",
+      "exemplos": ["M(x)", "q(x)", "f(t)", "σ(z)", "Q(x,y)", "g(t)"]
+    },
+
+    {
+      "classe": "monomio_com_coeficiente",
+      "comment": "Coeficiente numérico justaposto a variável simbólica, com possível potência. Aceita vírgula decimal PT-BR e ponto US. Padrão distintivo de notação matemática.",
+      "regex": "(?<![\\w.])\\d+[.,]?\\d*[\\p{L}\\p{M}][_a-zA-Z0-9α-ωΑ-ΩØáàâãäéèêëíìîïóòôõöúùûüçñÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇÑ²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉]*(?:\\^-?\\d+)?",
+      "exemplos": ["3l", "2x²", "0.5y", "0,093793x^2", "5p", "10.5α"]
+    },
+
+    {
+      "classe": "valor_absoluto",
+      "comment": "Valor absoluto |x| com argumento contendo marca matemática.",
+      "regex": "\\|[[\\p{L}\\p{M}0-9_·*/+\\-^()²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″]--[=<>~]]{1,60}\\|",
+      "exemplos": ["|σ_cp|", "|x|", "|a-b|", "|f(x)|"]
+    },
+
+    {
+      "classe": "raiz_radical_unicode",
+      "comment": "Raiz com símbolo Unicode (√ ∛ ∜) sobre argumento (parens ou termo simples). Apenas radicais — outros operadores Unicode (∫∑∂∇∏∮×÷) são operadores composicionais distintos, capturados via cluster geral.",
+      "regex": "[√∛∜]\\([^()\\n]{1,40}\\)|[√∛∜][\\p{L}\\p{M}0-9_]{1,20}",
+      "exemplos": ["√x", "∛2", "√(a²+b²)", "∛(1/4)"]
+    },
+
+    {
+      "classe": "cluster_compacto_matematico",
+      "comment": "Notação matemática JUSTAPOSTA sem espaço interno (P8 — marca matemática inerente). Combina: letras (latinas ou gregas) opcionalmente com subscript ASCII, ligadas por operadores aritméticos (/ * ^ ·) a termos com marca distintiva (dígito, subscript/superscript Unicode, letra grega adicional). Captura pl/12, qx²/2, M_max/EI, x²+y², 0.093x^2, α_p·E. EXCLUSÕES inequívocas para evitar bugs catalogados em 28/05/2026: (1) não atravessa \\n (lookahead/charset sem newline); (2) não captura parens órfãs/aposição (sem `(` ou `)` no charset principal); (3) não inicia com sinal unário (sem ± hífen no início, contexto de bullet de lista bloqueado); (4) NÃO inclui × (multiplicação dimensional entre QTYs é OP isolado, capturado pela Camada 1); (5) filtro pós exige ≥1 marca P8 estrita: dígito visível OU char grego OU sub/sup Unicode (rejeita `e/ou`, `M/EI`, palavras com `/` que não são matemática).",
+      "regex": "(?<![\\p{L}\\d_])(?:[α-ωΑ-Ωa-zA-Z]+(?:_[α-ωΑ-Ωa-zA-Z0-9]+)?|\\d+[.,]?\\d*)(?:[/*^·][α-ωΑ-Ωa-zA-Z0-9_]+(?:[²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉]+)?|[²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉]+)+(?![\\p{L}\\d_])",
+      "exemplos": ["pl/12", "qx²/2", "M_max/EI", "x²+y²", "0.093x^2", "α_p·E", "3l", "5p"],
+      "filtro_pos": "deve conter ≥1 marca matemática P8 estrita (dígito, grego, sub/sup Unicode)"
+    },
+
+    {
+      "classe": "cluster_com_sinal_unario",
+      "atomic_over_protected": true,
+      "comment": "Cluster matemático prefixado por sinal unário '-' ou '+'. Reconhece o contexto onde o sinal é UNÁRIO (não binário): precedido por operador relacional (=, ≈, ≤, ≥, <, >), abertura de parens '(' ou '[', vírgula, operador composicional binário (+, -, ·, *, /, ^), ou início de expressão. Princípio ontológico: -X em '... = -X' é cluster matemático com negação prefixada, não subtração com termo órfão. Sinal binário (a - b) é tratado pela classe expressao_com_operador_espacado via separador espaçado. Cresce em soma espaçada: '-X + Y - Z' captura inteiro (primeiro termo unário, demais binários). Atomic over protected: o sinal unário marca contexto de fórmula matemática completa; QTY/IDX internos são parte da composição (ex.: '2m' em '-ℏ²/(2m)' é coeficiente×variável, não grandeza física).",
+      "regex": "(?<=[=≈≠≡≤≥<>(\\[,+\\-*/^·×÷]\\s|[=≈≠≡≤≥<>(\\[,+\\-*/^·×÷])[+\\-][[\\p{L}\\p{M}0-9_·*/+^(){}|⟨⟩²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″]--[=<>~]]+(?:-[[\\p{L}\\p{M}0-9_·*/+^(){}|⟨⟩²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″]--[=<>~]]+)*(?:\\s+[+\\-·*×]\\s+[[\\p{L}\\p{M}0-9_·*/+^(){}|⟨⟩²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″]--[=<>~]]+(?:-[[\\p{L}\\p{M}0-9_·*/+^(){}|⟨⟩²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″]--[=<>~]]+)*)*(?![\\w\\-])",
+      "exemplos": ["-ℏ²/(2m)", "-E_a/(R_g·T)", "-x²+1", "(+x)", "= -P_a/A_c - P_a·e_p²/I_c + M_pp·e_p/I_c"]
+    },
+
+    {
+      "classe": "expressao_composta_sem_espaco",
+      "comment": "Cluster matemático sem espaços internos, contendo marca matemática (dígito, sub, sup, parens, op Unicode). Captura formas comuns como pl/12, (pl²/32)·∛2, x²+y², 0.093793x^2+3l. Filtro pós exige ≥1 marca distintiva (excluí strings como 'e/ou' sem dígito/sub/sup/parens). Vírgula `,` aceita como decimal PT-BR (entre dígitos); strip de extremidades remove vírgulas órfãs de prosa. Hífen `-` aceito INTERNAMENTE entre chars do charset (operador composicional dentro de parens ou cluster); P3 filtra clusters não-matemáticos via _VISIBLE_OPERATORS check.",
+      "regex": "(?<![\\w\\-])[[\\p{L}\\p{M}0-9_·*/+^(){}|⟨⟩²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″]--[=<>~]]+(?:-[[\\p{L}\\p{M}0-9_·*/+^(){}|⟨⟩²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″]--[=<>~]]+)*(?![\\w\\-])",
+      "exemplos": ["pl/12", "(pl²/32)·∛2", "0.093793x^2+3l", "0,161·V/A_eq", "x²+y²", "a/b·c", "α_p·E"],
+      "filtro_pos": "deve conter ≥1 marca matemática distintiva (dígito, _, ²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉, (, ·, ∛, √, ∫, ∑, ∂, ∇)"
+    },
+
+    {
+      "classe": "expressao_com_operador_espacado",
+      "comment": "Expressão composta com termos separados por operadores aritméticos espaçados (+, -, ·, *, ×): notação natural de equações em prosa técnica. Cresce de cluster composta + operador binário + cluster composta. Princípio: todos operadores aritméticos P3 podem mediar composição, não só +/-. Vírgula `,` aceita como decimal PT-BR. Hífen `-` interno permitido nos termos (dentro de parens, operador composicional).",
+      "regex": "(?<![\\w\\-])[[\\p{L}\\p{M}0-9_·*/+^(){}|⟨⟩²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″]--[=<>~]]+(?:-[[\\p{L}\\p{M}0-9_·*/+^(){}|⟨⟩²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″]--[=<>~]]+)*(?:\\s+[+\\-·*×]\\s+[[\\p{L}\\p{M}0-9_·*/+^(){}|⟨⟩²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″]--[=<>~]]+(?:-[[\\p{L}\\p{M}0-9_·*/+^(){}|⟨⟩²³⁰¹⁴⁵⁶⁷⁸⁹⁻⁺₀₁₂₃₄₅₆₇₈₉\\p{Sm}.,'′″]--[=<>~]]+)*)+(?![\\w\\-])",
+      "exemplos": ["pl/12 + qx²/2", "0.093793x^2 + 3l", "a + b·c - d", "σ_x + σ_y"]
+    }
+  ],
+
+  "marcas_matematicas_distintivas": {
+    "comment": "Princípio P8: ExpressaoSimbolica tem marca matemática distintiva intrínseca. Lista de caracteres/padrões que constituem marca. Strings sem nenhuma destas marcas SÃO palavras naturais (apoios, comprimento, e/ou), não expressões.",
+    "digitos": "0-9 (justaposto a letra OU em coeficiente)",
+    "subscript": "_ (M_max, σ_y, α_p)",
+    "superscript_unicode": "² ³ ⁰ ¹ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹",
+    "subscript_unicode": "₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉",
+    "parens_funcao": "( ) imediatamente após letra (não em prosa)",
+    "operadores_calculo_unicode": "∫ ∑ ∂ ∇ ∏ ∮ √ ∛ ∜",
+    "operadores_matematicos_unicode": "· × ÷ ∝ ≈ ≠ ≡ ≤ ≥ ⇒ ⇔ → ↔",
+    "funcao_nomeada": "log, ln, sin, cos, exp, sqrt, ... seguido de parens"
+  },
+
+  "notas_design": [
+    "ordem das classes importa: longest-match precedence — funcao_matematica_nomeada vence funcao_aplicada_generica que vence monomio_com_coeficiente.",
+    "Cada captura passa por SymPy parse_expr para validação canônica (autoridade externa análoga a Pint para grandezas).",
+    "dim_table veto: free_symbols pós-parse não podem ser TODAS unidades SI conhecidas (caso contrário é GrandezaFisica composta, não ExpressaoSimbolica).",
+    "P6 (convenção tipográfica) ainda aplica: clusters alfa puros >4 chars sem subscript/grego são palavras naturais.",
+    "Sem necessidade de âncora obrigatória — padrões estruturais são auto-suficientes para reconhecimento.",
+    "Lexicon append-only: novos padrões matemáticos (notações específicas de domínio) entram sem modificar os existentes (princípio P5 de extensibilidade da OEE).",
+    "atomic_over_protected: flag por classe que marca capturas estruturalmente atômicas (função aplicada nomeada/genérica). Estas classes ABSORVEM CONST/IDX internos em vez de fragmentar, porque a aplicação de função é o mediador P3 indissociável. Resultado: `exp(-E_a/(R_g·T))` → `[SYM:exp(-E_a/(R_g·T))]` (R_g absorvido), não `[SYM:exp(-E_a/(] + [CONST:R_g] + ·T))`."
+  ]
+}

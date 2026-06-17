@@ -1,0 +1,251 @@
+{
+  "version": "0.1.0",
+  "comment": "Tabela ATÔMICA de unidades de INFORMAÇÃO e VISUALIZAÇÃO. AUTO-GERADA por scripts/build_info_units.py — não editar à mão. Domínios cobertos: information (bit, byte, KB, MB, GB, KiB, MiB...), visualization (pixel, dot), visual_density (dpi, ppi, ppcm), color_depth (bpp). Pint default trata bit/byte como dimensionless (factor), mas nosso framework os SEPARA semanticamente (vocabulário técnico de engenharia de software/redes/visualização). FLOPS/MFLOPS são padrões não-canônicos; se necessários, adicionar como extensão manual com `non_pint_extension: true`. Princípio responsabilidade única: separado de dim_table.json (SI ℤ⁷), dimensionless_units.json (razões), constant_lexicon (constantes nomeadas).",
+  "atoms": {
+    "DPI": {
+      "factor": 39.37007874015748,
+      "category": "visual_density",
+      "pint_base_dim": "[printing_unit] / [length]"
+    },
+    "GB": {
+      "factor": 8000000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "Gbit": {
+      "factor": 1000000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "GiB": {
+      "factor": 8589934592.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "Gibit": {
+      "factor": 1073741824.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "KiB": {
+      "factor": 8192.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "Kibit": {
+      "factor": 1024.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "MB": {
+      "factor": 8000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "Mbit": {
+      "factor": 1000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "MiB": {
+      "factor": 8388608.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "Mibit": {
+      "factor": 1048576.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "PB": {
+      "factor": 8000000000000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "PPCM": {
+      "factor": 100.0,
+      "category": "visual_density",
+      "pint_base_dim": "[printing_unit] / [length]"
+    },
+    "PPI": {
+      "factor": 39.37007874015748,
+      "category": "visual_density",
+      "pint_base_dim": "[printing_unit] / [length]"
+    },
+    "PiB": {
+      "factor": 9007199254740992.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "TB": {
+      "factor": 8000000000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "Tbit": {
+      "factor": 1000000000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "TiB": {
+      "factor": 8796093022208.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "bit": {
+      "factor": 1.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "bits_per_pixel": {
+      "factor": 1.0,
+      "category": "color_depth",
+      "pint_base_dim": "1 / [printing_unit]"
+    },
+    "bpp": {
+      "factor": 1.0,
+      "category": "color_depth",
+      "pint_base_dim": "1 / [printing_unit]"
+    },
+    "byte": {
+      "factor": 8.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "dot": {
+      "factor": 1.0,
+      "category": "visualization",
+      "pint_base_dim": "[printing_unit]"
+    },
+    "dots_per_inch": {
+      "factor": 39.37007874015748,
+      "category": "visual_density",
+      "pint_base_dim": "[printing_unit] / [length]"
+    },
+    "gibibit": {
+      "factor": 1073741824.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "gibibyte": {
+      "factor": 8589934592.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "gigabit": {
+      "factor": 1000000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "gigabyte": {
+      "factor": 8000000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "kB": {
+      "factor": 8000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "kbit": {
+      "factor": 1000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "kibibit": {
+      "factor": 1024.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "kibibyte": {
+      "factor": 8192.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "kilobit": {
+      "factor": 1000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "kilobyte": {
+      "factor": 8000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "mebibit": {
+      "factor": 1048576.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "mebibyte": {
+      "factor": 8388608.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "megabit": {
+      "factor": 1000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "megabyte": {
+      "factor": 8000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "octet": {
+      "factor": 8.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "pebibyte": {
+      "factor": 9007199254740992.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "petabyte": {
+      "factor": 8000000000000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "pixel": {
+      "factor": 1.0,
+      "category": "visualization",
+      "pint_base_dim": "[printing_unit]"
+    },
+    "pixels_per_centimeter": {
+      "factor": 100.0,
+      "category": "visual_density",
+      "pint_base_dim": "[printing_unit] / [length]"
+    },
+    "pixels_per_inch": {
+      "factor": 39.37007874015748,
+      "category": "visual_density",
+      "pint_base_dim": "[printing_unit] / [length]"
+    },
+    "ppi": {
+      "factor": 39.37007874015748,
+      "category": "visual_density",
+      "pint_base_dim": "[printing_unit] / [length]"
+    },
+    "printers_dpi": {
+      "factor": 39.37007874015748,
+      "category": "visual_density",
+      "pint_base_dim": "[printing_unit] / [length]"
+    },
+    "tebibyte": {
+      "factor": 8796093022208.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "terabit": {
+      "factor": 1000000000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    },
+    "terabyte": {
+      "factor": 8000000000000.0,
+      "category": "information",
+      "pint_base_dim": "dimensionless"
+    }
+  }
+}

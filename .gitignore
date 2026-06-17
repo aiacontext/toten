@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+build/
+dist/
+.eggs/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Project artifacts (não versionar dados grandes / caches)
+data/cache/
+data/raw/
+evaluation/*/results_cache/
+evaluation/*/api_responses/
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Modelos / pesos / corpora grandes (decidir versionar via LFS depois)
+*.bin
+*.safetensors
+*.pkl
+*.model
+
+# Secrets — NUNCA commitar credenciais (OpenRouter, etc.)
+.env
+.env.*
+!.env.example
+
+# Capturas brutas das execuções experimentais (publicadas via release GitHub)
+artifacts/runs/
+artifacts/intrinsic_comparison/runs/
+
+# PDFs gerados (recomputáveis via scripts/generate_validation_pdf.py)
+validation_samples_bench_*.pdf
+validation_full_bench_*.pdf
+smoke_engenharias.txt

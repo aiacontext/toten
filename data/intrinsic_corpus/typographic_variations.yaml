@@ -1,0 +1,399 @@
+# Corpus sintético para SPEC_05 Stage 3 — Robustez Tipográfica.
+#
+# Cada grupo declara um conjunto de variantes (3-8) que representam a MESMA
+# entidade técnica em formas tipográficas diferentes. Um sistema robusto
+# deve canonizar todas as variantes para a mesma forma interna (ou pelo
+# menos reconhecê-las como equivalentes).
+#
+# Cobertura:
+#   - Notação de unidades (·, /, ², ⁻², ^2, etc.)
+#   - Locale numérico (PT-BR ↔ US/EN)
+#   - Subscripts/superscripts (Unicode vs ASCII vs LaTeX)
+#   - Greek letters (Unicode vs transliterado)
+#   - Identificadores normativos (espaços, hífens, junções)
+#   - Códigos de material (espaçamento)
+#   - Notação funcional (parens vs subscript)
+#
+# Cada grupo declara:
+#   - canonical: forma de referência (a "verdade" canônica)
+#   - variants: lista de 3-8 strings que devem ser equivalentes
+#   - kind: categoria do teste
+#   - notes: explicação curta
+#
+# Versão: 1.0 (2026-05-30, curadoria inicial)
+
+schema_version: "1.0"
+
+groups:
+
+  # ----- Unidades — exponente -----
+  - canonical: "kgf/cm²"
+    variants:
+      - "kgf/cm²"
+      - "kgf/cm2"
+      - "kgf·cm⁻²"
+      - "kgf*cm^-2"
+      - "kg-f/cm^2"
+      - "kgfcm⁻²"
+    kind: unit_exponent
+    notes: "tensão BR — variantes superscript/ASCII/divisão/sem-espaço"
+
+  - canonical: "m/s²"
+    variants:
+      - "m/s²"
+      - "m/s2"
+      - "m·s⁻²"
+      - "m*s^-2"
+      - "m s^-2"
+    kind: unit_exponent
+    notes: "aceleração — clássico"
+
+  - canonical: "kg/m³"
+    variants:
+      - "kg/m³"
+      - "kg/m3"
+      - "kg·m⁻³"
+      - "kg*m^-3"
+      - "kg m^-3"
+    kind: unit_exponent
+
+  - canonical: "N/m²"
+    variants:
+      - "N/m²"
+      - "N/m2"
+      - "N·m⁻²"
+      - "N*m^-2"
+    kind: unit_exponent
+
+  - canonical: "cm⁴"
+    variants:
+      - "cm⁴"
+      - "cm4"
+      - "cm^4"
+    kind: unit_exponent
+    notes: "momento de inércia I"
+
+  - canonical: "mm³"
+    variants:
+      - "mm³"
+      - "mm3"
+      - "mm^3"
+    kind: unit_exponent
+
+  # ----- Unidades — produto -----
+  - canonical: "kN·m"
+    variants:
+      - "kN·m"
+      - "kN m"
+      - "kN*m"
+      - "kN.m"
+      - "kNm"
+    kind: unit_product
+    notes: "momento — ponto médio ↔ espaço ↔ asterisco ↔ ponto ↔ junto"
+
+  - canonical: "tf·m"
+    variants:
+      - "tf·m"
+      - "tf m"
+      - "tf*m"
+      - "tf.m"
+      - "tfm"
+    kind: unit_product
+    notes: "momento BR (clássico em projeto estrutural)"
+
+  - canonical: "Pa·s"
+    variants:
+      - "Pa·s"
+      - "Pa s"
+      - "Pa*s"
+      - "Pas"
+    kind: unit_product
+    notes: "viscosidade dinâmica"
+
+  - canonical: "W/(m·K)"
+    variants:
+      - "W/(m·K)"
+      - "W/(m K)"
+      - "W·m⁻¹·K⁻¹"
+      - "W*m^-1*K^-1"
+      - "W/m/K"
+    kind: unit_product
+    notes: "condutividade térmica — parens vs notação inversa"
+
+  - canonical: "J/(kg·K)"
+    variants:
+      - "J/(kg·K)"
+      - "J/(kg K)"
+      - "J·kg⁻¹·K⁻¹"
+      - "J/kg/K"
+    kind: unit_product
+    notes: "calor específico"
+
+  # ----- Locale numérico PT-BR ↔ US -----
+  - canonical: "1.234,56"
+    variants:
+      - "1.234,56"
+      - "1234,56"
+      - "1234.56"
+      - "1,234.56"
+    kind: locale_decimal
+    notes: "número quatro casas, PT-BR ↔ US"
+
+  - canonical: "12,70"
+    variants:
+      - "12,70"
+      - "12.70"
+      - "12.7"
+      - "12,7"
+    kind: locale_decimal
+    notes: "trailing zero significativo em engenharia"
+
+  - canonical: "1.900"
+    variants:
+      - "1.900"
+      - "1900"
+      - "1,900"
+    kind: locale_thousands
+    notes: "milhar PT-BR vs sem separador vs US"
+
+  - canonical: "0,75"
+    variants:
+      - "0,75"
+      - "0.75"
+      - ".75"
+      - ",75"
+    kind: locale_decimal
+    notes: "decimal sem inteiro"
+
+  # ----- Símbolos com subscript -----
+  - canonical: "σ_y"
+    variants:
+      - "σ_y"
+      - "σ y"
+      - "sigma_y"
+      - "sigma y"
+      - "σ_{y}"
+    kind: symbol_subscript
+    notes: "tensão de escoamento — Unicode vs transliterado vs LaTeX"
+
+  - canonical: "f_ck"
+    variants:
+      - "f_ck"
+      - "fck"
+      - "f_{ck}"
+      - "f ck"
+    kind: symbol_subscript
+    notes: "fck — resistência característica concreto"
+
+  - canonical: "f_ptk"
+    variants:
+      - "f_ptk"
+      - "fptk"
+      - "f_{ptk}"
+    kind: symbol_subscript
+    notes: "resistência aço de protensão"
+
+  - canonical: "M_max"
+    variants:
+      - "M_max"
+      - "M_{max}"
+      - "Mmax"
+      - "M max"
+    kind: symbol_subscript
+
+  - canonical: "α_p"
+    variants:
+      - "α_p"
+      - "alpha_p"
+      - "α_{p}"
+      - "α p"
+    kind: symbol_subscript
+    notes: "razão modular protendido"
+
+  - canonical: "ε_c"
+    variants:
+      - "ε_c"
+      - "epsilon_c"
+      - "ε_{c}"
+    kind: symbol_subscript
+    notes: "deformação concreto"
+
+  - canonical: "δ_pp"
+    variants:
+      - "δ_pp"
+      - "delta_pp"
+      - "δ_{pp}"
+    kind: symbol_subscript
+    notes: "flecha peso próprio"
+
+  # ----- Letras gregas isoladas -----
+  - canonical: "π"
+    variants:
+      - "π"
+      - "pi"
+      - "PI"
+    kind: greek_letter
+    notes: "constante π"
+
+  - canonical: "θ"
+    variants:
+      - "θ"
+      - "theta"
+    kind: greek_letter
+
+  - canonical: "λ"
+    variants:
+      - "λ"
+      - "lambda"
+    kind: greek_letter
+
+  - canonical: "Σ"
+    variants:
+      - "Σ"
+      - "Sigma"
+      - "SIGMA"
+    kind: greek_letter
+    notes: "somatório"
+
+  # ----- Identificadores normativos (espaços, hífens) -----
+  - canonical: "NBR 6118"
+    variants:
+      - "NBR 6118"
+      - "NBR-6118"
+      - "NBR6118"
+      - "ABNT NBR 6118"
+      - "ABNT-NBR-6118"
+    kind: normative_id
+    notes: "norma BR concreto armado"
+
+  - canonical: "NBR 8800"
+    variants:
+      - "NBR 8800"
+      - "NBR-8800"
+      - "NBR8800"
+      - "ABNT NBR 8800"
+    kind: normative_id
+
+  - canonical: "NBR 7480"
+    variants:
+      - "NBR 7480"
+      - "NBR-7480"
+      - "NBR7480"
+    kind: normative_id
+
+  - canonical: "ISO 9001"
+    variants:
+      - "ISO 9001"
+      - "ISO-9001"
+      - "ISO9001"
+    kind: normative_id
+
+  - canonical: "ASTM A572"
+    variants:
+      - "ASTM A572"
+      - "ASTM-A572"
+      - "ASTMA572"
+      - "ASTM-A 572"
+    kind: normative_id
+
+  # ----- Códigos de material -----
+  - canonical: "CP 190 RB"
+    variants:
+      - "CP 190 RB"
+      - "CP-190-RB"
+      - "CP190RB"
+      - "CP 190RB"
+      - "CP190 RB"
+    kind: material_code
+    notes: "cordoalha protensão"
+
+  - canonical: "CA 50"
+    variants:
+      - "CA 50"
+      - "CA-50"
+      - "CA50"
+      - "CA 50A"
+    kind: material_code
+    notes: "aço CA-50 (armadura passiva NBR 7480)"
+
+  - canonical: "W150 × 13,0"
+    variants:
+      - "W150 × 13,0"
+      - "W150 x 13,0"
+      - "W150 * 13.0"
+      - "W150x13.0"
+      - "W150X13,0"
+    kind: material_code
+    notes: "perfil metálico (catálogo Gerdau) — × Unicode ↔ x ↔ *"
+
+  - canonical: "AR-415"
+    variants:
+      - "AR-415"
+      - "AR 415"
+      - "AR415"
+    kind: material_code
+    notes: "aço estrutural"
+
+  - canonical: "C30"
+    variants:
+      - "C30"
+      - "C 30"
+      - "C-30"
+    kind: material_code
+    notes: "classe de concreto NBR 8953"
+
+  # ----- Notação funcional vs subscript -----
+  - canonical: "M(x)"
+    variants:
+      - "M(x)"
+      - "M_x"
+      - "M[x]"
+      - "M(x)"
+    kind: function_vs_subscript
+    notes: "função M(x) ↔ subscript M_x — ambíguo em prosa, equivalente em uso"
+
+  - canonical: "V(x)"
+    variants:
+      - "V(x)"
+      - "V_x"
+      - "V[x]"
+    kind: function_vs_subscript
+
+  - canonical: "q(x/l)²"
+    variants:
+      - "q(x/l)²"
+      - "q*(x/l)^2"
+      - "q·(x/l)²"
+      - "q*(x/l)**2"
+    kind: function_vs_subscript
+    notes: "expressão composta com expoente"
+
+  # ----- Operadores ASCII vs Unicode -----
+  - canonical: "≤"
+    variants:
+      - "≤"
+      - "<="
+      - "=<"
+    kind: operator_ascii_unicode
+
+  - canonical: "≥"
+    variants:
+      - "≥"
+      - ">="
+      - "=>"
+    kind: operator_ascii_unicode
+
+  - canonical: "≈"
+    variants:
+      - "≈"
+      - "~="
+      - "~"
+    kind: operator_ascii_unicode
+
+  - canonical: "×"
+    variants:
+      - "×"
+      - "x"
+      - "*"
+    kind: operator_ascii_unicode
+    notes: "multiplicação (× clássica BR para dimensões)"

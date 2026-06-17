@@ -1,0 +1,268 @@
+# Corpus sintético para SPEC_05 Stage 4 — Numerical Reconstruction Fidelity.
+#
+# Cada caso declara `text` (string contendo UM número PT-BR técnico) e
+# `expected_value` (float canônico SI). O sistema sob teste deve recuperar
+# o valor a partir do seu próprio output, sem ambiguidade de re-parser.
+#
+# Cobertura:
+#   - Locale PT-BR (vírgula decimal, ponto milhar)
+#   - Notação científica × 10ⁿ Unicode + ASCII e/E
+#   - Sinal negativo (− Unicode + - ASCII)
+#   - Com unidade (texto livre adjacente)
+#   - Embutido em fórmula (cluster mais complexo)
+#   - Magnitude extrema (0.00001, 1e15)
+#   - Decimais sem inteiro
+#
+# Schema: cases[] com text, expected_value, kind, notes
+# Versão: 1.0 (2026-05-30, curadoria inicial)
+
+schema_version: "1.0"
+
+cases:
+
+  # ----- Locale PT-BR puro (sem unidade) -----
+  - text: "1.234,56"
+    expected_value: 1234.56
+    kind: locale_pt_br_thousands
+    notes: "milhar PT-BR + decimal — 4 caracteres ambíguos para BPE"
+
+  - text: "1.234.567,89"
+    expected_value: 1234567.89
+    kind: locale_pt_br_thousands
+    notes: "milhar e milhão PT-BR"
+
+  - text: "12,70"
+    expected_value: 12.70
+    kind: locale_pt_br_decimal
+    notes: "engineering display com trailing zero"
+
+  - text: "0,75"
+    expected_value: 0.75
+    kind: locale_pt_br_decimal
+    notes: "razão clássica em engenharia"
+
+  - text: "0,286"
+    expected_value: 0.286
+    kind: locale_pt_br_decimal
+
+  - text: ",75"
+    expected_value: 0.75
+    kind: locale_decimal_no_integer
+    notes: "decimal sem zero líder (PT-BR informal)"
+
+  - text: "1.900"
+    expected_value: 1900.0
+    kind: locale_pt_br_thousands
+    notes: "milhar exato ambíguo com 1,900 decimal"
+
+  # ----- Notação científica -----
+  - text: "1,38 × 10⁻²³"
+    expected_value: 1.38e-23
+    kind: scientific_unicode
+    notes: "constante Boltzmann PT-BR; × superscript Unicode"
+
+  - text: "9,81 × 10⁻³"
+    expected_value: 9.81e-3
+    kind: scientific_unicode
+
+  - text: "6,022 × 10²³"
+    expected_value: 6.022e23
+    kind: scientific_unicode
+    notes: "Avogadro"
+
+  - text: "1,5e-3"
+    expected_value: 1.5e-3
+    kind: scientific_ascii
+    notes: "notação e/E em PT-BR"
+
+  - text: "2,99792458e8"
+    expected_value: 2.99792458e8
+    kind: scientific_ascii
+    notes: "c em PT-BR scientific ASCII"
+
+  - text: "1E15"
+    expected_value: 1e15
+    kind: scientific_ascii
+
+  - text: "1e-15"
+    expected_value: 1e-15
+    kind: scientific_ascii
+
+  # ----- Sinal negativo -----
+  - text: "−273,15"
+    expected_value: -273.15
+    kind: signed_unicode
+    notes: "zero absoluto Celsius com − Unicode (U+2212)"
+
+  - text: "-273,15"
+    expected_value: -273.15
+    kind: signed_ascii
+    notes: "mesma quantidade com hífen ASCII"
+
+  - text: "−1,5e-3"
+    expected_value: -1.5e-3
+    kind: signed_unicode
+
+  - text: "-0,001"
+    expected_value: -0.001
+    kind: signed_ascii
+
+  # ----- Com unidade adjacente -----
+  - text: "1,80 m"
+    expected_value: 1.80
+    kind: with_unit
+    notes: "comprimento típico viga"
+
+  - text: "40 MPa"
+    expected_value: 40.0
+    kind: with_unit
+    notes: "resistência concreto"
+
+  - text: "200 GPa"
+    expected_value: 200.0
+    kind: with_unit
+    notes: "módulo elasticidade aço"
+
+  - text: "9,80665 m/s²"
+    expected_value: 9.80665
+    kind: with_unit
+    notes: "gravidade padrão"
+
+  - text: "0,286 kN/m"
+    expected_value: 0.286
+    kind: with_unit
+
+  - text: "1.706.667 cm⁴"
+    expected_value: 1706667.0
+    kind: with_unit
+    notes: "momento de inércia (milhar PT-BR + superscript)"
+
+  - text: "1.380.649 × 10⁻²³ J/K"
+    expected_value: 1.380649e-23
+    kind: with_unit_scientific
+    notes: "Boltzmann em forma alternativa PT-BR (questionável; testa robustez)"
+
+  - text: "−40,5 kN·m"
+    expected_value: -40.5
+    kind: with_unit_signed
+
+  # ----- Embutido em fórmula / expressão -----
+  - text: "0,75·fptk"
+    expected_value: 0.75
+    kind: in_formula
+    notes: "coeficiente em fórmula NBR"
+
+  - text: "(pl²/32)·∛2"
+    expected_value: 0.03937005259840998
+    kind: in_formula
+    notes: "M_max Süssekind Q.7.2 — coeficiente decimal ≈ ∛2/32"
+    # Este caso é trapaceiro: a string não contém o número 0.03937 explícito;
+    # ele é resultado da AVALIAÇÃO da expressão. Sistemas que só extraem
+    # números literais (Pint, Quantulum3) não recuperam — esperado.
+
+  - text: "32/π"
+    expected_value: 10.185916357881302
+    kind: in_formula
+    notes: "também avaliação, não literal"
+
+  - text: "M = q·L²/8"
+    expected_value: 8.0
+    kind: in_formula
+    notes: "extrai 8 (literal — número que aparece)"
+
+  - text: "y = mx + 2,5"
+    expected_value: 2.5
+    kind: in_formula
+    notes: "extrai constante 2,5"
+
+  # ----- Magnitude extrema -----
+  - text: "0,00000001"
+    expected_value: 1e-8
+    kind: extreme_small
+
+  - text: "100000000000"
+    expected_value: 1e11
+    kind: extreme_large
+
+  - text: "1.000.000.000"
+    expected_value: 1e9
+    kind: extreme_large_with_separators
+    notes: "bilhão PT-BR — separadores milhar densos"
+
+  - text: "0,0000000000001"
+    expected_value: 1e-13
+    kind: extreme_small
+
+  # ----- Inteiros simples (controle positivo) -----
+  - text: "110"
+    expected_value: 110.0
+    kind: integer_simple
+    notes: "controle: número inteiro sem ambiguidade"
+
+  - text: "8"
+    expected_value: 8.0
+    kind: integer_simple
+
+  - text: "100"
+    expected_value: 100.0
+    kind: integer_simple
+
+  - text: "3"
+    expected_value: 3.0
+    kind: integer_simple
+
+  # ----- Frações + porcentagens -----
+  - text: "0,5 %"
+    expected_value: 0.5
+    kind: percentage_pt_br
+
+  - text: "3,5%"
+    expected_value: 3.5
+    kind: percentage_pt_br
+    notes: "porcento colado"
+
+  - text: "1/3"
+    expected_value: 0.3333333333333333
+    kind: fraction
+    notes: "fração — sistema deve resolver ou extrair 1 e 3 separados"
+
+  - text: "3/4"
+    expected_value: 0.75
+    kind: fraction
+
+  # ----- Casos com vírgula vs ponto ambíguo -----
+  - text: "1.900 MPa"
+    expected_value: 1900.0
+    kind: locale_disambiguation
+    notes: "milhar PT-BR (NÃO 1,9 MPa) — armadilha clássica em projeto"
+
+  - text: "1,900 MPa"
+    expected_value: 1.900
+    kind: locale_disambiguation
+    notes: "decimal PT-BR (NÃO 1900 MPa) — armadilha oposta"
+
+  - text: "1,000"
+    expected_value: 1.000
+    kind: locale_disambiguation
+    notes: "decimal PT-BR (NÃO 1000)"
+
+  - text: "1.000"
+    expected_value: 1000.0
+    kind: locale_disambiguation
+    notes: "milhar PT-BR (NÃO 1.0)"
+
+  # ----- Casos especiais -----
+  - text: "π"
+    expected_value: 3.141592653589793
+    kind: constant_symbol
+    notes: "constante — sistema deve resolver para valor numérico"
+
+  - text: "e"
+    expected_value: 2.718281828459045
+    kind: constant_symbol
+    notes: "Euler"
+
+  - text: "5,9722×10²⁴"
+    expected_value: 5.9722e24
+    kind: scientific_unicode_no_space
+    notes: "massa da Terra — sem espaço entre número e ×"

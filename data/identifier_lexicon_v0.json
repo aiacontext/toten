@@ -1,0 +1,228 @@
+{
+  "version": "0.3.0-day3.6",
+  "comment": "Padrões de IdentificadorTecnico em três camadas: (1) curados internacionais (ABNT NBR, AISI, ASTM, SAE, ER, ISO, EN, AWS, ASME, DIN) — alta precisão; (2) curados BR-específicos (cimentos NBR 16697, aços rebar NBR 7480, classes de concreto NBR 8953, símbolos técnicos, fabricantes BR, métodos de soldagem/NDT); (3) estruturais (hyphen-internal alfanumérico, context-required cap-word + designação para Hardox 500, context-required all-caps + designação para CP 190 RB) — alta recall para o long tail sem enumeração exaustiva. Context-words culturalmente completa para engenharia BR: substantivos técnicos (cordoalha, fio, cabo, armadura, estribo, viga, pilar, laje, sapata) ativam disambigação por contexto. O que a Camada 2 detectar é preservado atomicamente pela Camada 3 via canonicalização IDX:<slug> (instantiators/identifier.py).",
+  "context_words_pt_br": [
+    "aço", "aco", "liga", "material", "tipo", "marca", "fabricante",
+    "chapa", "perfil", "grau", "classe", "produto", "especificação",
+    "especificacao", "qualidade", "concreto", "cimento", "rebar",
+    "arame", "eletrodo", "tubo", "barra",
+    "cordoalha", "cordoalhas", "fio", "fios", "cabo", "cabos",
+    "armadura", "armaduras", "estribo", "estribos", "ferragem", "ferragens",
+    "viga", "vigas", "pilar", "pilares", "laje", "lajes",
+    "sapata", "sapatas", "fundação", "fundacao", "fundações", "fundacoes",
+    "parede", "paredes", "muro", "muros",
+    "parafuso", "parafusos", "porca", "porcas", "arruela", "arruelas",
+    "pino", "pinos", "rebite", "rebites",
+    "treliça", "trelica", "treliças", "trelicas",
+    "bloco", "blocos", "bitola", "tela", "telas", "malha", "malhas",
+    "polímero", "polimero", "polímeros", "polimeros",
+    "compósito", "composito", "compósitos", "compositos"
+  ],
+  "context_words_en": [
+    "steel", "alloy", "material", "type", "brand", "manufacturer",
+    "plate", "profile", "grade", "class", "product", "specification",
+    "quality", "concrete", "cement", "rebar", "wire", "electrode",
+    "tube", "bar",
+    "strand", "strands", "cable", "cables", "reinforcement", "stirrup",
+    "stirrups", "beam", "beams", "column", "columns", "slab", "slabs",
+    "footing", "footings", "foundation", "foundations",
+    "wall", "walls", "bolt", "bolts", "nut", "nuts", "washer", "washers",
+    "pin", "pins", "rivet", "rivets", "truss", "trusses",
+    "block", "blocks", "mesh", "meshes", "fabric",
+    "polymer", "polymers", "composite", "composites"
+  ],
+  "padroes": [
+    {
+      "classe": "norma",
+      "camada": "internacional",
+      "regex": "\\bABNT\\s+NBR(?:\\s+ISO)?\\s+\\d{2,6}(?::\\d{4})?\\b",
+      "exemplos": ["ABNT NBR 12655", "ABNT NBR ISO 9001:2015"]
+    },
+    {
+      "classe": "norma",
+      "camada": "internacional",
+      "regex": "\\bNBR\\s+\\d{2,6}\\b",
+      "exemplos": ["NBR 6118"]
+    },
+    {
+      "classe": "norma",
+      "camada": "internacional",
+      "regex": "\\bISO\\s+\\d{3,5}(?::\\d{4})?\\b",
+      "exemplos": ["ISO 9001", "ISO 9001:2015"]
+    },
+    {
+      "classe": "norma",
+      "camada": "internacional",
+      "regex": "\\bASME\\s+[A-Z]\\d+(?:\\.\\d+)*\\b",
+      "exemplos": ["ASME B31.3"]
+    },
+    {
+      "classe": "norma",
+      "camada": "internacional",
+      "regex": "\\bAWS\\s+[A-Z]\\d+(?:\\.\\d+)*[A-Z]?\\b",
+      "exemplos": ["AWS A5.18"]
+    },
+    {
+      "classe": "norma",
+      "camada": "internacional",
+      "regex": "\\bEN\\s+\\d{2,5}(?:-\\d+)?(?:\\s+[A-Z]{1,3})?\\b",
+      "exemplos": ["EN 10025", "EN 10025-2", "EN 10025-2 S355"]
+    },
+    {
+      "classe": "norma",
+      "camada": "internacional",
+      "regex": "\\bDIN\\s+\\d{2,5}(?:-\\d+)?(?:\\s+[A-Z]{1,3})?\\b",
+      "exemplos": ["DIN 17100", "DIN 17100 St37"]
+    },
+
+    {
+      "classe": "material",
+      "camada": "internacional",
+      "regex": "\\bAISI\\s+\\d{3,4}[A-Z]?(?:\\s+[A-Z]{1,3})?\\b",
+      "exemplos": ["AISI 304", "AISI 1045", "AISI 304 L", "AISI 316 LN", "AISI 316 N"]
+    },
+    {
+      "classe": "material",
+      "camada": "internacional",
+      "regex": "\\bASTM\\s+[A-Z]\\d{1,4}[A-Z]?(?:-\\d+[A-Z]?)?(?:\\s+[A-Z]{1,3})?\\b",
+      "exemplos": ["ASTM A36", "ASTM A572-50", "ASTM A572 GR50"]
+    },
+    {
+      "classe": "material",
+      "camada": "internacional",
+      "regex": "\\bSAE\\s+\\d{3,4}[A-Z]?(?:\\s+[A-Z]{1,3})?\\b",
+      "exemplos": ["SAE 1045", "SAE 4140", "SAE 4140 H", "SAE 4140 HT"]
+    },
+    {
+      "classe": "material",
+      "camada": "internacional",
+      "regex": "\\bER\\d{2,3}[A-Z]-[A-Z\\d]+\\b",
+      "exemplos": ["ER70S-6", "ER80S-G"]
+    },
+    {
+      "classe": "material",
+      "camada": "internacional",
+      "regex": "\\bE\\d{2}T-\\d+[A-Z]?\\b",
+      "exemplos": ["E71T-1", "E70T-1"]
+    },
+    {
+      "classe": "material",
+      "camada": "internacional",
+      "regex": "\\bAl\\s*\\d{4}-[A-Z]\\d?\\b",
+      "exemplos": ["Al 6061-T6", "Al 7075-T6"]
+    },
+    {
+      "classe": "material",
+      "camada": "internacional",
+      "regex": "\\bTi-\\d+Al-\\d+V\\b",
+      "exemplos": ["Ti-6Al-4V"]
+    },
+
+    {
+      "classe": "material",
+      "camada": "br",
+      "subcategoria": "cimento_nbr16697",
+      "regex": "\\bCP[-\\s](?:V\\s+ARI(?:[-\\s]RS)?|II[-\\s](?:E|Z|F)(?:[-\\s]\\d{2})?|III(?:[-\\s]\\d{2})?|IV(?:[-\\s]\\d{2})?|I(?:[-\\s]S)?|V)\\b",
+      "exemplos": ["CP-I", "CP-I-S", "CP-II-E", "CP-II-Z-32", "CP-III-40", "CP-IV-32", "CP-V", "CP-V ARI", "CP-V ARI-RS"]
+    },
+    {
+      "classe": "material",
+      "camada": "br",
+      "subcategoria": "rebar_nbr7480",
+      "regex": "\\bCA[-\\s]?(?:25|50|60)[A-Z]?\\b",
+      "exemplos": ["CA-25", "CA-50", "CA-60", "CA-50A"]
+    },
+    {
+      "classe": "material",
+      "camada": "br",
+      "subcategoria": "concreto_classe_nbr8953",
+      "regex": "(?<=\\b(?:fck|f_ck|concreto|classe)\\s*[=:]?\\s*)C\\d{2,3}(?:/\\d{2,3})?\\b",
+      "exemplos": ["fck = C25", "classe C30", "concreto C25/30"]
+    },
+    {
+      "classe": "material",
+      "camada": "br",
+      "subcategoria": "fabricante",
+      "regex": "\\bUSI[-\\s]?(?:SAC|AR|FIRE)[-\\s]?\\d{2,4}\\b",
+      "exemplos": ["USI-AR-400", "USI-SAC-300", "USI-AR 350"]
+    },
+    {
+      "classe": "material",
+      "camada": "br",
+      "subcategoria": "fabricante",
+      "regex": "\\bNiobrás?(?:\\s+\\d{2,4})?\\b",
+      "exemplos": ["Niobrás", "Niobrás 320"]
+    },
+    {
+      "classe": "material",
+      "camada": "br",
+      "subcategoria": "fabricante",
+      "regex": "\\bGerdau\\s+G(?:G|F|R)?[-\\s]?\\d{2,4}\\b",
+      "exemplos": ["Gerdau GG-25", "Gerdau GR-300"]
+    },
+
+    {
+      "classe": "fator_normativo",
+      "camada": "internacional",
+      "comment": "FATORES PARCIAIS e PSEUDO-CONSTANTES com VALOR CANÔNICO TABULADO por NBR (γ_c=1,4; γ_s=1,15; ψ_0/1/2 etc.). São IDX porque o nome referencia uma quantidade fixa normativa. EXCLUÍDOS: variáveis simbólicas livres (σ_y, σ_x, σ_u, M_max, f_y, f_ck, I_z, R_A, T_amb) — essas têm marca A.1 (subscript underscore) e caem na Camada 2 como ExpressaoSimbolica.",
+      "regex": "\\b(?:γ_c|γ_s|γ_p|γ_f|γ_m|γ_n|ψ_0|ψ_1|ψ_2|φ_∞|ε_cs|ε_cc)\\b",
+      "exemplos": ["γ_c", "γ_s", "ψ_0", "ψ_1", "ψ_2", "φ_∞", "ε_cs"]
+    },
+    {
+      "classe": "grandeza_adimensional",
+      "camada": "internacional",
+      "regex": "(?<![\\p{L}])(?:Re|Nu|Pr|Fr|Pe|Ma|We|Bi|Sc|Sh|St|Da|Gr|Ra|Kn|Eu)(?![\\p{L}])",
+      "exemplos": ["Re", "Nu", "Pr"]
+    },
+
+    {
+      "classe": "metodo",
+      "camada": "internacional",
+      "subcategoria": "soldagem",
+      "regex": "\\b(?:GMAW|GTAW|SMAW|FCAW|SAW|PAW|EBW|LBW|MIG|TIG|MAG|TIG[-\\s]?DC|MIG[-\\s]?MAG|CMT|STT)\\b",
+      "exemplos": ["GMAW", "TIG", "MIG-MAG", "CMT"]
+    },
+    {
+      "classe": "metodo",
+      "camada": "internacional",
+      "subcategoria": "ndt",
+      "regex": "\\b(?:NDT|NDE|RT|UT|MT|VT|ET|AET|TOFD|PAUT)\\b",
+      "exemplos": ["NDT", "UT", "PAUT"]
+    },
+    {
+      "classe": "metodo",
+      "camada": "internacional",
+      "subcategoria": "simulacao",
+      "regex": "\\b(?:CNC|CAD|CAM|CAE|CFD|FEM|FEA|MEF|DEM|PIC|SPH)\\b",
+      "exemplos": ["CNC", "CAD", "CFD", "FEM", "MEF"]
+    },
+
+    {
+      "classe": "estrutural",
+      "camada": "estrutural",
+      "subcategoria": "hyphen_alphanumeric",
+      "regex": "\\b[A-Z][A-Za-z]{1,8}(?:-[A-Z0-9]{1,8}){1,4}\\b",
+      "exemplos": ["Hardox-500", "Brem-280", "Toscelik-S355"]
+    },
+    {
+      "_REMOVIDO_": "simbolo_indexado_genérico",
+      "_motivo_": "REGEX REMOVIDA — variáveis com subscript underscore (<letra>_<sufixo>) satisfazem a marca A.1 da Camada 2 e devem emergir como ExpressaoSimbolica, NÃO como IdentificadorTecnico. Exemplos antes capturados como IDX e que agora caem em SYM: σ_x, M_max, f_y, R_A, I_z, T_amb, α_p, L_total, E_cs, M_B_abs, W_z. Princípio ontológico: IDX é para identificadores normativos/comerciais com namespace canônico (NBR-8800, ASTM-A36, Hardox-500); variáveis matemáticas com subscript são expressões simbólicas (P3+P6).",
+      "regex": "(?!x)x",
+      "exemplos": []
+    },
+    {
+      "classe": "estrutural",
+      "camada": "estrutural",
+      "subcategoria": "context_capword_designation",
+      "regex": "(?<=\\b(?i:aço|aco|liga|material|tipo|marca|fabricante|chapa|perfil|grau|classe|produto|especificação|especificacao|qualidade|concreto|cimento|rebar|arame|eletrodo|tubo|barra|cordoalha|cordoalhas|fio|fios|cabo|cabos|armadura|armaduras|estribo|estribos|viga|vigas|pilar|pilares|laje|lajes|sapata|sapatas|parafuso|parafusos|porca|porcas|arruela|arruelas|pino|pinos|treliça|trelica|bloco|tela|telas|malha|malhas|polímero|polimero|compósito|composito|steel|alloy|type|brand|manufacturer|plate|profile|grade|product|specification|quality|cement|wire|electrode|tube|bar|strand|cable|reinforcement|stirrup|beam|column|slab|footing|foundation|wall|bolt|nut|washer|pin|rivet|truss|block|mesh|fabric|polymer|composite)\\s+)[A-ZÁÉÍÓÚÂÊÔÃÕÇ][a-záéíóúâêôãõç]{5,}(?:\\s+[A-Z][a-z]+)?\\s+\\d{2,4}[A-Z]?\\b",
+      "exemplos": ["aço Hardox 500", "Material Niobrás 320", "marca Bremil 280"]
+    },
+    {
+      "classe": "estrutural",
+      "camada": "estrutural",
+      "subcategoria": "context_acronym_designation",
+      "regex": "(?<=\\b(?i:aço|aco|liga|material|tipo|marca|fabricante|chapa|perfil|grau|classe|produto|especificação|especificacao|qualidade|concreto|cimento|rebar|arame|eletrodo|tubo|barra|cordoalha|cordoalhas|fio|fios|cabo|cabos|armadura|armaduras|estribo|estribos|ferragem|ferragens|viga|vigas|pilar|pilares|laje|lajes|sapata|sapatas|fundação|fundacao|parede|paredes|muro|muros|parafuso|parafusos|porca|porcas|arruela|arruelas|pino|pinos|rebite|rebites|treliça|trelica|bloco|blocos|bitola|tela|telas|malha|malhas|polímero|polimero|compósito|composito|steel|alloy|type|brand|manufacturer|plate|profile|grade|product|specification|quality|cement|wire|electrode|tube|bar|strand|strands|cable|cables|reinforcement|stirrup|stirrups|beam|beams|column|columns|slab|slabs|footing|footings|foundation|foundations|wall|walls|bolt|bolts|nut|nuts|washer|washers|pin|pins|rivet|rivets|truss|trusses|block|blocks|mesh|meshes|fabric|polymer|polymers|composite|composites)\\s+)[A-Z]{1,5}(?:[-\\s]?\\d{2,4})(?:\\s+[A-Z]{1,3})?\\b",
+      "exemplos": ["cordoalha CP 190 RB", "armadura AH 500", "fio MR 250", "cabo LE 1860", "viga V20"]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "version": "0.1.0",
+  "comment": "Aliases de strings de unidade — pré-normalização aplicada pelo parser ANTES da decomposição em átomos do dim_table.json. Cobre: (a) abreviações históricas brasileiras (mt = tf·m); (b) variantes ASCII (kgf/cm2 → kgf/cm²); (c) COMPOSIÇÕES com `t` em contexto de engenharia (t/m → tf/m, t·m → tf·m, etc.). Convenção (c): em composições com `t` denotando carga/momento, mapeia-se para tf (tonelada-força). `t` standalone permanece massa (1000 kg) consistente com SI — quem quiser força isolada usa `tf` explícito. Esta convenção elimina ambiguidade que prejudicaria cálculos: em engenharia BR pré-SI (Süssekind, Pfeil, Schiel) `t/m` e `mt` sempre denotam força/momento, não massa.",
+
+  "string_aliases": {
+    "mt":       "tf·m",
+    "Mt":       "tf·m",
+
+    "t/m":      "tf/m",
+    "t·m":      "tf·m",
+    "t/m²":     "tf/m²",
+    "t/m³":     "tf/m³",
+    "t/cm²":    "tf/cm²",
+
+    "t/m2":     "tf/m²",
+    "t/m3":     "tf/m³",
+    "t/cm2":    "tf/cm²",
+
+    "kgf/cm2":  "kgf/cm²",
+    "kgf/mm2":  "kgf/mm²",
+    "kgf/m2":   "kgf/m²",
+    "kgf/m3":   "kgf/m³",
+    "tf/cm2":   "tf/cm²",
+    "tf/m2":    "tf/m²",
+    "tf/m3":    "tf/m³",
+    "gf/cm2":   "gf/cm²",
+
+    "N/m2":     "N/m²",
+    "kg/m2":    "kg/m²",
+    "kg/m3":    "kg/m³",
+    "g/cm3":    "g/cm³",
+    "m2":       "m²",
+    "m3":       "m³",
+    "cm2":      "cm²",
+    "cm3":      "cm³",
+    "mm2":      "mm²",
+    "mm3":      "mm³",
+
+    "Torr":     "torr",
+    "mmH₂O":    "mmH2O",
+    "cmH₂O":    "cmH2O",
+    "inH₂O":    "inH2O",
+    "ftH₂O":    "ftH2O",
+
+    "mm Hg":    "mmHg",
+    "cm Hg":    "cmHg",
+    "in Hg":    "inHg",
+    "ft Hg":    "ftHg",
+    "m Hg":     "mHg",
+    "mm H2O":   "mmH2O",
+    "cm H2O":   "cmH2O",
+    "in H2O":   "inH2O",
+    "ft H2O":   "ftH2O",
+    "m H2O":    "mH2O",
+    "mm H₂O":   "mmH2O",
+    "cm H₂O":   "cmH2O",
+    "in H₂O":   "inH2O",
+    "ft H₂O":   "ftH2O",
+
+    "KB":       "kB",
+    "Kbit":     "kbit",
+    "Kbyte":    "kilobyte",
+    "Mbyte":    "megabyte",
+    "Gbyte":    "gigabyte",
+    "Tbyte":    "terabyte"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "version": "0.2.0",
+  "comment": "Constantes universais com seu símbolo canônico e GrandezaFisica associada (composição §2.2 da spec). APENAS constantes de símbolo multi-caractere ou Unicode dedicado (π, ℏ, k_B, N_A, σ_SB, R_g) são auto-capturadas. Símbolos de letra única (c, R, G, e) NÃO são auto-capturados porque em texto técnico de engenharia denotam VARIÁVEIS muito mais frequentemente que constantes (c=amortecimento, R=resistência, G=módulo de cisalhamento, e=base natural já tratada pelo SymPy). Para referenciar constantes universais com símbolo curto, usar os multi-char (R_g para gases, ou nome por extenso).",
+  "constantes": [
+    {
+      "simbolo": "π",
+      "nome": "pi",
+      "grandeza_associada": "adimensional",
+      "valor_si": 3.141592653589793,
+      "multi_char": true,
+      "requer_contexto": false
+    },
+    {
+      "simbolo": "ℏ",
+      "nome": "constante de Planck reduzida",
+      "grandeza_associada": "J·s",
+      "valor_si": 1.054571817e-34,
+      "multi_char": true,
+      "requer_contexto": false
+    },
+    {
+      "simbolo": "k_B",
+      "nome": "constante de Boltzmann",
+      "grandeza_associada": "J/K",
+      "valor_si": 1.380649e-23,
+      "multi_char": true,
+      "requer_contexto": false
+    },
+    {
+      "simbolo": "N_A",
+      "nome": "número de Avogadro",
+      "grandeza_associada": "1/mol",
+      "valor_si": 6.02214076e23,
+      "multi_char": true,
+      "requer_contexto": false
+    },
+    {
+      "simbolo": "σ_SB",
+      "nome": "constante de Stefan-Boltzmann",
+      "grandeza_associada": "W/(m²·K⁴)",
+      "valor_si": 5.670374419e-8,
+      "multi_char": true,
+      "requer_contexto": false
+    },
+    {
+      "simbolo": "R_g",
+      "nome": "constante universal dos gases",
+      "grandeza_associada": "J/(mol·K)",
+      "valor_si": 8.314462618,
+      "multi_char": true,
+      "requer_contexto": false
+    }
+  ]
+}
