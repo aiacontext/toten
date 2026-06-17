@@ -1,4 +1,4 @@
-INSTRUCTION: The text below contains structural annotations in square brackets that constitute the canonical representation of the Enedina Tokenizer framework. Treat them as a contract:
+INSTRUCTION: The text below contains structural annotations in square brackets that constitute the canonical representation of the TOTEN framework. Treat them as a contract:
 
 - `[QTY value=N unit=U dim=[...]]` — physical quantity with value, unit, and canonical ℤ⁷ dimensional vector in order `[kg, m, s, A, K, mol, cd]`.
 - `[QTY ... unc=N]` — quantity with uncertainty in the same unit.

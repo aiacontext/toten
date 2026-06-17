@@ -193,7 +193,7 @@ def test_extract_free_variables() -> None:
 
 @pytest.mark.skip(
     reason=(
-        "OBSOLETO (2026-05-31): refator fe8a5a4 — pl/12 fragmenta em SYM "
+        "OBSOLETO: refator anterior — pl/12 fragmenta em SYM "
         "atômicos separados (['R', 'pl', 'Süssekind']), não captura "
         "'pl/12' como cluster. Reescrita pendente para refletir nova "
         "fragmentação."
@@ -208,7 +208,7 @@ def test_classifier_captura_sym_em_equacao() -> None:
 
 @pytest.mark.skip(
     reason=(
-        "OBSOLETO (2026-05-31): refator fe8a5a4 — delimitação $...$ não "
+        "OBSOLETO: refator anterior — delimitação $...$ não "
         "produz mais SYM diretamente. Comportamento de delimitadores "
         "matemáticos sob revisão."
     )
@@ -241,7 +241,7 @@ def test_classifier_nao_captura_marcadores_lista() -> None:
 
 @pytest.mark.skip(
     reason=(
-        "OBSOLETO (2026-05-31): refator fe8a5a4 — pl/12 fragmenta em "
+        "OBSOLETO: refator anterior — pl/12 fragmenta em "
         "tokens SYM separados, não como cluster atômico [SYM:pl/12]. "
         "Reescrita pendente."
     )
@@ -372,7 +372,7 @@ def test_engquant_sem_placeholder_atom() -> None:
         for line in f:
             d = json.loads(line)
             modo_b = d["prompts"]["modo_b"]
-            assert "_ENEDINA_ATOM_" not in modo_b, (
+            assert "_TOTEN_ATOM_" not in modo_b, (
                 f"{d['id']}: placeholder vaza"
             )
 

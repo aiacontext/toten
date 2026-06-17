@@ -9,22 +9,16 @@ natural. A *contribuição* do framework está nos tipos onde LLMs frozen
 erram (grandezas, identificadores, constantes); a prosa ao redor é
 deixada intacta.
 
-Em Modo A (token IDs para um SLM treinado nativamente), a prosa precisa
-de BPE para virar IDs do vocab. Esta classe define a interface
+Em Modo A (token IDs para um modelo treinado nativamente), a prosa
+precisa de BPE para virar IDs do vocab. Esta classe define a interface
 `bpe_backend` para esse caso, mas a materialização do vocab é decisão
-do momento de treino do SLM — não desta fase. O default `bpe_backend`
+do momento de treino — não desta fase. O default `bpe_backend`
 levanta `NotImplementedError` documentando o ponto de decisão.
 
-Quando chegarmos a treinar o SLM (Enedina v3 / exp004 em
-`enedina_agentic_v0.1`), as opções são:
-- Reaproveitar `enedina_agentic_v0.1/tokenizer/output/enedina_spm.model`
-  (SentencePiece BPE 16k, byte fallback, mas com 25% do vocab queimado
-  em multi-dígitos — pouco eficiente já que números aqui passam pelo
-  `GrandezaFisicaInstantiator`, não pelo BPE).
-- Treinar BPE fresh dedicado a prosa (vocab limpo, sem desperdício de
-  slots em dígitos ou markup de entities).
-
-Recomendação atual: opção 2 (fresh BPE), decisão a confirmar no momento.
+O BPE de prosa pode ser um SentencePiece existente ou um BPE dedicado à
+prosa (vocab limpo, sem desperdiçar slots em dígitos ou markup de
+entidades, já que números passam pelo `GrandezaFisicaInstantiator`, não
+pelo BPE).
 """
 
 from __future__ import annotations
@@ -52,7 +46,7 @@ class _UnboundBPEBackend:
     def encode(self, text: str) -> list[int]:
         msg = (
             "ProsaTecnicaInstantiator.Modo A exige um BPEBackend; "
-            "vocab será materializado no treino do SLM (Enedina v3). "
+            "vocab será materializado no treino do modelo nativo. "
             "Use Modo B para LLMs frozen, ou injete um backend custom."
         )
         raise NotImplementedError(msg)

@@ -1,4 +1,4 @@
-INSTRUÇÃO: O texto a seguir contém anotações estruturais entre colchetes que constituem a representação canônica do framework Enedina Tokenizer. Trate-as como contrato:
+INSTRUÇÃO: O texto a seguir contém anotações estruturais entre colchetes que constituem a representação canônica do framework TOTEN. Trate-as como contrato:
 
 - `[QTY value=N unit=U dim=[...]]` — grandeza física com valor, unidade e vetor dimensional ℤ⁷ canônico na ordem `[kg, m, s, A, K, mol, cd]`.
 - `[QTY ... unc=N]` — grandeza com incerteza na mesma unidade.

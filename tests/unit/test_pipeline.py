@@ -98,7 +98,7 @@ def test_preprocess_whitespace_preservado_entre_typed(tok: Tokenizer) -> None:
 
 @pytest.mark.skip(
     reason=(
-        "OBSOLETO (2026-05-31): refator fe8a5a4 — σ_y agora vira [SYM:σ_y] "
+        "OBSOLETO: refator anterior — σ_y agora vira [SYM:σ_y] "
         "preservando subscript, não [IDX:σy] canonizado. Reescrita pendente "
         "para esperar [SYM:σ_y]."
     )
@@ -118,7 +118,7 @@ def test_preprocess_pontuacao_preservada(tok: Tokenizer) -> None:
 
 @pytest.mark.skip(
     reason=(
-        "OBSOLETO (2026-05-31): refator fe8a5a4 — fck agora vira [SYM:fck] "
+        "OBSOLETO: refator anterior — fck agora vira [SYM:fck] "
         "(preservando como expressão simbólica), não [IDX:fck]. CP 190 RB "
         "também perdeu classificação IDX (sob revisão). Teste assume "
         "comportamento v0.5; reescrita pendente para esperar tags atuais."

@@ -125,7 +125,7 @@ class NumeroToken:
         return f"[NUM {' '.join(parts)}]"
 
     def _render_a(self) -> str:
-        """Modo A — formato compacto para SLM treinado."""
+        """Modo A — formato compacto para modelo treinado nativamente."""
         n = self.numero
         return f"<NUM>{_format_value(n.valor)}</NUM>"
 

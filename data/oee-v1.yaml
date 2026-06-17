@@ -2,10 +2,9 @@
 #
 # Declaração formal dos tipos ontológicos que compõem o discurso técnico
 # de engenharia. Esta ontologia é a contribuição teórica central do
-# framework Enedina Tokenizer e fundamenta a derivação dos instanciadores
+# framework TOTEN e fundamenta a derivação dos instanciadores
 # da Camada 3 da arquitetura.
 #
-# Fonte autoritativa: SPEC_ENEDINA_TOKENIZER_v2.md §2.
 # Mudanças a partir da v1.0 exigem RFC explícita.
 #
 # CHANGELOG v1.0 → v1.1 (2026-05-31):
@@ -13,7 +12,7 @@
 #   "kgf/cm²"), espelhando Pint.parse_expression sobre só-unidade.
 # - Novo 8º tipo Numero: escalar real sem dimensão física associada.
 #   Endereça lacuna SOTA Number Cookbook (Yang ICLR 2025, Singh-Strouse
-#   2024) e closing-empírico H4 (números soltos em vestibular/MC).
+#   2024) e a lacuna de reconstrução numérica (números soltos em texto técnico).
 # - Aplicação formal de P5 (extensibilidade): adição sem modificação
 #   dos 7 tipos existentes; código v1.0 continua válido.
 # - Sequência ordenada: Numero NOVO entra entre ConstanteUniversal e
@@ -28,8 +27,8 @@ descricao: |
   válida). GrandezaFisica é o tipo central; os demais constituem
   contexto desambiguador que ancora a interpretação das grandezas.
 referencias:
-  - "SPEC_ENEDINA_TOKENIZER_v2.md §2 (Ontologia)"
-  - "SPEC_ENEDINA_TOKENIZER_v2.md §3 (Arquitetura)"
+  - "OEE — definição formal dos tipos (§2)"
+  - "Arquitetura de classificação e instanciação (§3)"
 
 # ---------------------------------------------------------------------------
 # Princípios da OEE (replicados em forma legível por máquina para auditoria)
@@ -77,7 +76,7 @@ tipos:
       Em v1.0, `valor` era obrigatório — strings como 'kgf/cm²' iam para
       ProsaTecnica ou ExpressaoSimbolica. Em v1.1, `valor=None` indica
       unidade-isolada legítima. Espelha Pint.parse_expression('kgf/cm²')
-      que retorna Quantity(magnitude=1, units=kgf/cm²) mas Enedina opta
+      que retorna Quantity(magnitude=1, units=kgf/cm²) mas o TOTEN opta
       por None em vez de 1 implícito — sem inferência silenciosa.
     exemplos:
       - "350 MPa"             # valor=350, unit=MPa
@@ -110,13 +109,11 @@ tipos:
       NEM ProsaTecnica (esta não tem estrutura formal). Portanto demanda
       tipo próprio (ver P1+P4).
 
-      Justificativa empírica (SPEC_05 Stage 4): Enedina v1.0 perdia em
-      H4 (numerical reconstruction) porque números soltos (`100`,
-      `1.234,56`, `1,38 × 10⁻²³`) caíam em ProsaTecnica, sem valor
-      extraível. Quantulum3 venceu nesses casos (match_rate 0.65-0.70
-      vs Enedina 0.16-0.26). Numero como tipo formal espelha o que
-      Q3 faz na prática, mas como capacidade arquitetural do framework
-      (não wrapper).
+      Justificativa empírica (reconstrução numérica): sem um tipo formal
+      para o número, valores soltos (`100`, `1.234,56`, `1,38 × 10⁻²³`)
+      caem em ProsaTecnica, sem valor extraível, e a reconstrução
+      numérica se degrada. Numero como tipo de primeira classe preserva
+      o valor exato, em vez de depender de um envoltório a posteriori.
 
       Justificativa SOTA: Yang et al. 2024 (Number Cookbook, ICLR 2025)
       e Singh-Strouse 2024 mostram que tokenização adequada de números
@@ -155,7 +152,7 @@ tipos:
       Justificativa empírica: textos legais/normativos PT-BR
       (ENEM, vestibulares de direito, normas técnicas NBR) usam
       `§ 8.2.1`, `parágrafo 14.2.3`, `art. 5° § 2 inciso III` como
-      padrão canônico. Enedina v0.7 fragmentava `8.2.1` em
+      padrão canônico. Sem um tipo próprio, `8.2.1` fragmenta em
       `[NUM value=8.2]` + `.` + `[NUM value=1]`, perdendo atomicidade
       e introduzindo interpretação numérica incorreta.
 

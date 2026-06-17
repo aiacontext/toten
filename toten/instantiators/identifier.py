@@ -20,7 +20,7 @@ Letras gregas, cirílicas e demais alfabetos Unicode são preservados
 
 Esta é a virada conceitual do framework para identificadores: mesmo
 sem dicionário global, qualquer identificador detectado pela Camada
-2 sai daqui como token tipado e atômico. O LLM/SLM consumidor vê
+2 sai daqui como token tipado e atômico. O LLM consumidor vê
 `[IDX:hardox-500]` como uma única entidade, não como sequência de
 caracteres fragmentada. Self-contained, rico, robusto.
 """

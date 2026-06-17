@@ -134,7 +134,7 @@ def test_classifier_captura_pt_br_thousands(
 
 @pytest.mark.skip(
     reason=(
-        "OBSOLETO (2026-05-31): refator fe8a5a4 — fptk agora vira "
+        "OBSOLETO: refator anterior — fptk agora vira "
         "[SYM:fptk] em vez de [IDX:fptk]. CP 190 RB também sob revisão "
         "(provavelmente perdeu IDX). Reescrita pendente."
     )

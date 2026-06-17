@@ -1,4 +1,4 @@
-# Corpus sintético para SPEC_05 Stage 2 — Equivalência Dimensional.
+# Corpus sintético — Equivalência Dimensional.
 #
 # Cada par declara dois strings (a, b) com expected ∈ {equivalent, incoherent}.
 # Equivalent: a e b representam o MESMO vetor dimensional ℤ⁷ no SI (mesma grandeza

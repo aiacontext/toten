@@ -21,7 +21,7 @@ O pipeline:
    não emitiu como regiões.
 
 Modo B é o caso completo (model-agnostic). Modo A é definido pela
-interface mas requer materialização de vocab no treino do SLM.
+interface mas requer materialização de vocab no treino do modelo nativo.
 """
 
 from __future__ import annotations
@@ -52,7 +52,7 @@ from toten.ontology.types import TipoNome
 
 
 class Tokenizer:
-    """Fachada Modo B do Enedina Tokenizer com ativação integrada."""
+    """Fachada Modo B do TOTEN com ativação integrada."""
 
     def __init__(
         self,

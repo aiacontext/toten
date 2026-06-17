@@ -2,7 +2,7 @@
 
 Cada teste codifica uma decisão ontológica formal — falha aqui significa
 que a definição de PROSE_SEPARATOR ou OPERATOR_MEDIATOR está
-inconsistente com o contrato Enedina.
+inconsistente com o contrato TOTEN.
 """
 
 from __future__ import annotations

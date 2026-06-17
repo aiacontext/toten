@@ -84,7 +84,7 @@ def test_falso_positivo_atomo_desconhecido(
 
 @pytest.mark.skip(
     reason=(
-        "OBSOLETO (2026-05-31): teste assume comportamento antigo onde "
+        "OBSOLETO: teste assume comportamento antigo onde "
         "tokens não-átomos eram filtrados. Com v1.1 unit-only + extensões, "
         "comportamento sobre tokens ambíguos como 'foo/bar' está sob "
         "revisão. Reescrita pendente."

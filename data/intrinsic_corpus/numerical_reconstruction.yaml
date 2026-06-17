@@ -1,4 +1,4 @@
-# Corpus sintético para SPEC_05 Stage 4 — Numerical Reconstruction Fidelity.
+# Corpus sintético — Numerical Reconstruction Fidelity.
 #
 # Cada caso declara `text` (string contendo UM número PT-BR técnico) e
 # `expected_value` (float canônico SI). O sistema sob teste deve recuperar

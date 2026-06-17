@@ -132,7 +132,7 @@ def test_fabricantes_br(
 
 @pytest.mark.skip(
     reason=(
-        "OBSOLETO (2026-05-31): refator ontológico unificado (commit fe8a5a4, "
+        "OBSOLETO: refator ontológico unificado (refator anterior, "
         "'Camada 2 derivada de 6 condições') passou símbolos técnicos com "
         "subscript (σ_y, f_ck, etc.) para ExpressaoSimbolica [SYM:σ_y] em vez "
         "de IdentificadorTecnico [IDX:σy]. Decisão arquitetural deliberada — "

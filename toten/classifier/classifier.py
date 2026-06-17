@@ -666,8 +666,8 @@ class OntologicalClassifier:
         em texto livre, com suporte locale-rich PT-BR + notação científica
         Unicode/ASCII + sinal negativo + fração simples + percentual.
 
-        Endereça lacuna SOTA Number Cookbook (Yang ICLR 2025) e closing
-        empírico H4 (Stage 4 SPEC_05 — números soltos em vestibular MC).
+        Endereça lacuna SOTA Number Cookbook (Yang ICLR 2025) — números
+        soltos sem unidade, frequentes em texto técnico e de avaliação.
 
         Reusa `_NUMBER_RE` como núcleo (já testado em GrandezaFisica) e
         adiciona variantes:

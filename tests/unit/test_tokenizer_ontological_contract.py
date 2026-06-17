@@ -1,6 +1,6 @@
 """Testes do contrato ontológico do tokenizer (Camada 1 + Camada 2).
 
-Cada teste codifica uma decisão ontológica formal do framework Enedina.
+Cada teste codifica uma decisão ontológica formal do framework TOTEN.
 Falhas aqui = violação do contrato.
 
 Categorias:
@@ -148,7 +148,7 @@ class TestPositivosFundamentais:
 
     @pytest.mark.skip(
         reason=(
-            "OBSOLETO (2026-05-31): refator fe8a5a4 — 'pl/12' em prosa "
+            "OBSOLETO: refator anterior — 'pl/12' em prosa "
             "(sem âncora estrutural antes) não vira SYM atômico. P7 da "
             "OEE exige âncora explícita (=, ≤, etc.). Reescrita pendente."
         )

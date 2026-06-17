@@ -5,7 +5,7 @@ científica, unidades compostas, múltiplas grandezas por sentença,
 posição correta de spans.
 
 OBSOLETO (módulo inteiro, 2026-05-31):
-Refator dimensional ℤ⁷ (commit 2e7f6d5, "expansão SI algorítmica +
+Refator dimensional ℤ⁷ (refator anterior, "expansão SI algorítmica +
 unificação fonte única") removeu o símbolo público
 `DEFAULT_UNIT_TABLE_PATH` do módulo `classifier`. Os 15 testes deste
 arquivo importam esse símbolo no topo e falham com ImportError antes
@@ -18,7 +18,7 @@ from __future__ import annotations
 import pytest
 
 pytest.skip(
-    "obsoleto: refator dim ℤ⁷ (commit 2e7f6d5) removeu "
+    "obsoleto: refator dim ℤ⁷ (refator anterior) removeu "
     "DEFAULT_UNIT_TABLE_PATH; testes precisam ser reescritos para usar "
     "default_units()/default_dim_table()",
     allow_module_level=True,

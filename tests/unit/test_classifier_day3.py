@@ -136,7 +136,7 @@ def test_constante_multi_char_sempre_emite(
 def test_constante_single_char_nao_auto_capturada(
     classifier: OntologicalClassifier,
 ) -> None:
-    """Decisão ontológica (turn 2026-05-19): letras únicas (c, R, G, e)
+    """Decisão ontológica: letras únicas (c, R, G, e)
     NÃO são auto-capturadas como CONST porque em texto técnico de engenharia
     denotam VARIÁVEIS muito mais frequentemente que constantes universais
     (c=amortecimento, R=resistência, G=módulo de cisalhamento). Capturar
@@ -242,7 +242,7 @@ def test_priority_carregada_da_oee(classifier: OntologicalClassifier) -> None:
 
 @pytest.mark.skip(
     reason=(
-        "OBSOLETO (2026-05-31): refator fe8a5a4 — '2π' fica em SYM "
+        "OBSOLETO: refator anterior — '2π' fica em SYM "
         "(composição mediada) em vez de CONST atômico. Decisão "
         "documentada na docstring do classifier (uso vs menção: "
         "adjacente a marca matemática vira SYM). Reescrita pendente."

@@ -1,4 +1,4 @@
-"""Enedina Tokenizer — framework ontológico para representação determinística
+"""TOTEN — framework ontológico para representação determinística
 de grandezas físicas em LLMs de engenharia.
 
 API pública conforme spec §6.2:

@@ -160,7 +160,7 @@ def test_prose_default_backend_decode_levanta() -> None:
 
 @pytest.mark.skip(
     reason=(
-        "OBSOLETO (2026-05-31): refator dim ℤ⁷ (commit 2e7f6d5) "
+        "OBSOLETO: refator dim ℤ⁷ (refator anterior) "
         "renomeou _load_unit_symbols → _load_unit_symbols_from_dim_table "
         "e mudou contrato (lê do dim_table.json, não de units.json). "
         "Reescrita pendente para testar o novo loader."
@@ -404,7 +404,7 @@ def test_schema_ordem_com_duplicatas() -> None:
 
 @pytest.mark.skip(
     reason=(
-        "OBSOLETO (2026-05-31): Evolução 1 (OEE v1.1) introduziu validator "
+        "OBSOLETO: Evolução 1 (OEE v1.1) introduziu validator "
         "version-aware (_expected_types_for_version) que rejeita versões "
         "não-suportadas (v2.0) com mensagem 'versão OEE não suportada'. "
         "Antes, v2.0 escapava do _v1_completa silenciosamente. Fixtures "
@@ -430,7 +430,7 @@ def test_schema_ordem_incompleta() -> None:
 
 
 @pytest.mark.skip(
-    reason="OBSOLETO (2026-05-31): mesma razão de test_schema_ordem_incompleta — fixture _oee_v2_minimo rejeitada pelo validator v1.1 version-aware."
+    reason="OBSOLETO: mesma razão de test_schema_ordem_incompleta — fixture _oee_v2_minimo rejeitada pelo validator v1.1 version-aware."
 )
 def test_schema_composicao_para_tipo_v2_nao_declarado() -> None:
     """OEE v2 sem ConstanteUniversal: outra entrada referencia tipo ausente."""
@@ -441,7 +441,7 @@ def test_schema_composicao_para_tipo_v2_nao_declarado() -> None:
 
 
 @pytest.mark.skip(
-    reason="OBSOLETO (2026-05-31): mesma razão — _oee_v2_minimo rejeitada pelo validator v1.1."
+    reason="OBSOLETO: mesma razão — _oee_v2_minimo rejeitada pelo validator v1.1."
 )
 def test_schema_v2_sem_constante_universal_passa() -> None:
     """OEE v2 sem ConstanteUniversal valida — _constante_universal_compoe_grandeza
