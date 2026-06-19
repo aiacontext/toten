@@ -91,8 +91,9 @@ tests/                 core test suite
 The deterministic property checks (dimensional equivalence, typographic robustness, numerical
 reconstruction) run against the pairs in [`data/intrinsic_corpus/`](data/intrinsic_corpus/).
 The larger **EngQuant** benchmark (procedurally generated with physical validation) is
-distributed separately as a dataset on the Aia Context Hugging Face
-(`huggingface.co/datasets/aiacontext`), since it is data rather than code.
+distributed separately as a dataset —
+[`aiacontext/engquant`](https://huggingface.co/datasets/aiacontext/engquant) on Hugging
+Face — since it is data rather than code.
 
 ## Citation
 
