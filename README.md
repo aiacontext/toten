@@ -16,7 +16,7 @@ downstream model. On Brazilian-Portuguese technical text the effect is worse.
 ## The approach
 
 Instead of deriving the vocabulary statistically, TOTEN **declares** a formal ontology of
-engineering entities (OEE) and classifies text against it. Formally, it is the triple:
+engineering entities (OEE) and classifies text against it. Formally, it is the triple
 
 ```
 ⟨ O , classify , { inst_τ } ⟩
